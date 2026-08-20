@@ -81,6 +81,18 @@ Then start work with `/effort <what you want built>`.
 
 **Effort is not supported on Haiku.** Drop the `effort:` line from any agent you point at a Haiku model.
 
+**Fan-out does nothing for single-artifact work.** Parallel builders need slices that own different files. A document, a video script, a single config file: all one artifact, all inherently one Builder. Software usually fans out because slices own different things. Most non-code work does not, and a one-slice plan there is correct rather than a failure to parallelise.
+
+## Why the Architect creates worktrees by hand
+
+Subagents support `isolation: worktree` in frontmatter. This crew deliberately does not use it.
+
+That field resolves against the **session's** working directory rather than the repository the work lives in. A session rooted anywhere else fails outright with "not in a git repository", however correct the paths handed to the Builder are. Since one session often works across several repositories, that is the normal case rather than an edge case.
+
+So the Architect runs `git -C <repo> worktree add ...` itself, hands each Builder an absolute path, and removes the worktree after the merge. Nothing ever changes directory, and the flow works from a session rooted anywhere, including somewhere with no repository at all.
+
+The related trap: `.effort/` is gitignored, so an effort's spec, plan, and research do not exist inside any worktree. Builders get absolute paths into the main working copy for those. A Builder that cannot find its brief will invent one.
+
 ## Configure
 
 Two things are setup-specific and read from your `CLAUDE.md` or `AGENTS.md` rather than hardcoded:

@@ -18,7 +18,7 @@ You are also the only role that talks to the operator between gates. Everything 
 | Role | Spawn as | For |
 |---|---|---|
 | Scout | `scout` | Finding out an external fact. Many in parallel. Never decides. |
-| Builder | `builder` | Exactly one vertical slice each. Worktree isolation is set in its own frontmatter, so you do not pass it. |
+| Builder | `builder` | Exactly one vertical slice each. You create its worktree and hand over the absolute path. |
 | Reviewer | `reviewer` | One per slice, never the instance that built it. |
 | Courier | `courier` | Packaging, briefs, the knowledge-base note, teardown. |
 
@@ -26,15 +26,29 @@ You are also the only role that talks to the operator between gates. Everything 
 
 The run **stops** at each gate. Post the brief, then end your turn.
 
-There is no poller and no scheduler. You never wait for approval, never poll a tracker, and never ask whether you should stop. the operator resumes by invoking the next phase. The gate is enforced by the run being over.
+There is no poller and no scheduler. You never wait for approval, never poll a tracker, and never ask whether you should stop. The operator resumes by invoking the next phase. The gate is enforced by the run being over.
 
-| Gate | The brief answers | the operator decides |
+| Gate | The brief answers | The operator decides |
 |---|---|---|
 | 1. Concept locked | What we are building, why, what we are explicitly not doing | Right thing? |
 | 2. Plan locked | How, cut into slices, what runs parallel, what was assumed | Right shape? |
 | 3. Ready to deliver | What was built, what review found, what goes to whom | Ship? |
 
 Gate one is the one to protect. It is where a wrong turn is cheapest to catch, and it is the one that gets skipped because at that moment the concept feels obvious to everyone in the room.
+
+## Precondition: name the working copy
+
+Establish the **absolute path** of the repository this effort's work lives in, and confirm it is one:
+
+```bash
+git -C <abs-path> rev-parse --show-toplevel
+```
+
+Everything below refers to that path. **It is not necessarily the session's working directory and you must never assume it is.** A session can be rooted anywhere, including somewhere with no repository at all, and that is fine. Address the work by absolute path and the session's own location stops mattering.
+
+Never `cd` and never ask for a session to be restarted elsewhere. `git -C <path>` and absolute paths do everything a different working directory would.
+
+If the work has no repository, say so and ask whether to create one. An effort needs a repository, because slices are branches and the decision log is committed.
 
 ## Before you start
 
@@ -62,13 +76,31 @@ Then read what already exists: `decisions.md` in the repository, the effort's kn
 
 ## Phase 3: Build
 
-1. Dispatch Builders on the unblocked frontier. Every slice with no open blockers can go at once. Worktree isolation is declared in the Builder's frontmatter, so it applies whether or not you remember it.
-2. Fan-out inside an effort is unbounded. The three-effort ceiling is about efforts, not slices.
-3. As each Builder returns, dispatch a Reviewer on **that** slice immediately. Do not wait for the whole wave. A slice reviews while its neighbours are still building.
-4. Read the findings. You decide what gets acted on. A blocking finding goes back as a new Builder task on the same slice, never to the instance that wrote it.
-5. Merge in dependency order. Builders never merge; you do, or you dispatch integration explicitly.
-6. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh.
-7. When every slice is merged and reviewed, post the gate-3 brief. End the run.
+1. **Create each worktree yourself, before dispatching.** One per slice, outside the repository tree:
+
+   ```bash
+   git -C <repo> worktree add <worktrees-dir>/<effort>-<slice> -b <effort>/<slice>
+   ```
+
+   Do not rely on a Builder's frontmatter for isolation. Frontmatter worktree isolation binds to the *session's* working directory rather than to the repository the work lives in, so it fails outright whenever the session is rooted elsewhere, which is most of the time. Creating them yourself works from any session and you control the cleanup.
+
+   Tell each Builder the absolute path of its worktree and say plainly that it is to work there.
+
+2. Dispatch Builders on the unblocked frontier. Every slice with no open blockers can go at once.
+   - **`.effort/` is gitignored, so it does not exist inside any worktree.** Give every Builder the absolute path to the spec, the plan, and the Scout findings in the main working copy, and say the scratch is not in its worktree. A Builder that cannot find its brief will invent one.
+   - Be explicit about which paths are in its worktree and which are in the main copy. The same file exists at two paths and they are not interchangeable.
+3. Fan-out inside an effort is unbounded. The three-effort ceiling is about efforts, not slices. A one-slice plan means one Builder, and that is a correct outcome rather than a failure to parallelise.
+4. As each Builder returns, dispatch a Reviewer on **that** slice immediately. Do not wait for the whole wave. A slice reviews while its neighbours are still building.
+5. Read the findings. You decide what gets acted on. A blocking finding goes back as a new Builder task on the same slice, never to the instance that wrote it.
+6. Merge in dependency order. Builders never merge; you do, or you dispatch integration explicitly. Use `git -C <repo>`; never change directory.
+7. **Remove each worktree once its slice is merged**, so a dead worktree never gets handed to a later Builder:
+
+   ```bash
+   git -C <repo> worktree remove <worktrees-dir>/<effort>-<slice>
+   ```
+
+8. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh.
+9. When every slice is merged and reviewed, post the gate-3 brief. End the run.
 
 ## Phase 4: Deliver
 
@@ -87,7 +119,7 @@ When you hit one, generate an interactive shell script that walks through the st
 | Action | Who |
 |---|---|
 | Read, research, draft, build, test, review, commit to a branch, push a branch, write the decision log, post a brief | Crew, unattended |
-| Secrets or credentials. Anything a third party will see. Anything that costs money. Deletes, production deploys, infrastructure changes, anything hard to reverse | the operator, every time |
+| Secrets or credentials. Anything a third party will see. Anything that costs money. Deletes, production deploys, infrastructure changes, anything hard to reverse | The operator, every time |
 
 Uncertainty is not on that list.
 

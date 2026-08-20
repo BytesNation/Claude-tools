@@ -27,6 +27,16 @@ Too big is the more common error and it shows up as a build that keeps blowing o
 
 Too small is real too. Twelve slices for a three-line change means the units became atomic and lost the grouping that made them meaningful. If the whole change fits in one context window, do not slice at all. Build it.
 
+## Single-artifact work does not fan out
+
+Parallel builders need slices that own **different things**. When the whole deliverable is one artifact, a document, a script, a rendered video, a single config file, there is nothing to divide. Every candidate slice edits the same file, so parallel builders collide in the one place isolation cannot help them.
+
+For that work the correct plan is **one slice**, and it is a correct plan rather than a failure to parallelise. Say so plainly instead of manufacturing slices to justify the machinery.
+
+The tell is the artifact count, not the work's size. A large document is still one artifact. A small feature touching a schema, an API and a UI is three, and fans out fine.
+
+This matters most when the same crew handles code and non-code work. Software usually fans out because slices own different files. Documents, content and single-file configuration usually do not, and expecting parallelism there will produce either a collision or a fake decomposition.
+
 ## Blocking edges
 
 Each slice declares which slices must finish before it can start. Those edges are the artifact.

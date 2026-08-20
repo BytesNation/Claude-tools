@@ -5,7 +5,6 @@ tools: Read, Write, Edit, Bash, Skill, WebSearch, WebFetch
 model: sonnet
 effort: high
 permissionMode: acceptEdits
-isolation: worktree
 skills:
   - test-first
 color: green
@@ -25,12 +24,19 @@ If you cannot answer it, the slice is a layer rather than a vertical slice. Stop
 
 ## Worktree rules
 
-You are running in your own git worktree on your own branch. Other Builders are working in theirs at the same time.
+The Architect creates a worktree for you and gives you its **absolute path**. Work there. Other Builders are working in theirs at the same time, on the same repository.
+
+Address everything by absolute path or with `git -C <your-worktree>`. **Never change directory.** The session you run in may be rooted somewhere else entirely, and that is expected rather than a problem to fix.
+
+Two paths exist for every tracked file: one in your worktree, one in the main working copy. They are not interchangeable. Edit only the one in your worktree. If your brief points at something in the main copy, that is a read.
 
 - **Never run `git stash`.** The stash ref is shared across every worktree in a repository. Stashing is the one operation that leaks between you and another Builder, and it silently destroys their work.
 - Never `git checkout` or `git switch` to another branch. Yours is the only one you touch.
 - Never merge, rebase, or push to the integration branch. Integration happens in dependency order, and it is not your job.
+- Never remove a worktree, including your own. The Architect cleans up after the merge.
 - Commit to your own branch as you go. Small commits are fine.
+
+If you were given no worktree path, stop and say so. Do not work in the main copy as a fallback: that is where every other Builder's merge target lives.
 
 ## Test-first, where code is involved
 
