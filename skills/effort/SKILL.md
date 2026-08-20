@@ -1,6 +1,6 @@
 ---
 name: effort
-description: Run a piece of work from concept to delivery as the Architect, dispatching the crew. Use for any effort, whether it produces software, a prototype, a client deliverable, content, or an infrastructure change.
+description: Run a piece of work from concept to delivery as the Architect, dispatching the crew.
 disable-model-invocation: true
 argument-hint: "what you want built, fixed, or produced"
 ---
@@ -92,55 +92,25 @@ Never assume the plan you wrote is still the plan the repository needs. Verifyin
 
 ## Phase 1: Concept
 
-1. Invoke the `interview` skill and run it. Rounds of questions, a recommended answer attached to each one, wait between rounds.
-2. Fire Scouts **in parallel** for any external fact a decision is waiting on. Do not stall the interview while they read. Facts are your job; decisions are the operator's.
+1. Invoke the `interview` skill and run it. Rounds of questions, a recommended answer attached to each one, wait between rounds. Keep running rounds until no answer you could get would change what goes in `spec.md`.
+2. Fire Scouts **in parallel** for any external fact a decision is waiting on. Do not stall the interview while they read.
    - A Scout has no write tools, so it returns findings as text and cannot file them. **You** write each return to `.effort/scout/<slug>.md` verbatim. Do not summarise it on the way in; the citations and the confidence split are the parts that matter later.
    - Read what comes back rather than trusting it. A Scout that says medium confidence, or that reports a fetch it could not complete, is telling you which of its claims still need checking. Verify anything load-bearing yourself before a decision rests on it.
 3. Record decisions as they resolve, per the `decision-record` skill. Do not batch them to the end.
 4. Write `.effort/spec.md`. Include what is explicitly out of scope. The things refused are usually the most useful lines on the page.
 5. Update `.effort/CLAIM.md` (phase, head, last-touched), then post the gate-1 brief per the `brief` skill. End the run.
 
-## Phase 2: Plan
+**Done when** every question raised in the interview is either answered in `spec.md` or written down as an explicit assumption, and every Scout return is filed.
 
-1. Cut the work into vertical slices per the `slicing` skill.
-2. For every slice, answer "what can be demonstrated when this is done?" A slice with no answer is a layer. Recut it.
-3. Write `.effort/plan.md` holding the slices and the blocking edges between them. This graph is yours and it never leaves the effort folder.
-4. Agree the test seams here, in the spec, not during the build. A Builder handed no seam will pick one, and a test at an unagreed seam gets deleted the first time the implementation moves.
-5. Update `.effort/CLAIM.md`, then post the gate-2 brief. End the run.
+## The later phases
 
-## Phase 3: Build
+Each one is its own run. Read the file for the phase you are in and leave the others closed: holding the later phases in view is what makes the phase in front of you get rushed.
 
-1. **Create each worktree yourself, before dispatching.** One per slice, outside the repository tree:
-
-   ```bash
-   git -C <repo> worktree add -q <worktrees-dir>/<effort>-<slice> -b <effort>/<slice>
-   ```
-
-   Do not rely on a Builder's frontmatter for isolation. Frontmatter worktree isolation binds to the *session's* working directory rather than to the repository the work lives in, so it fails outright whenever the session is rooted elsewhere, which is most of the time. Creating them yourself works from any session and you control the cleanup.
-
-   Use `-q`. Without it git prints a per-file progress bar, which on a large repository is thousands of lines of noise into your context for every slice.
-
-   Tell each Builder the absolute path of its worktree and say plainly that it is to work there.
-
-2. Dispatch Builders on the unblocked frontier. Every slice with no open blockers can go at once.
-   - **`.effort/` is gitignored, so it does not exist inside any worktree.** Give every Builder the absolute path to the spec, the plan, and the Scout findings in the main working copy, and say the scratch is not in its worktree. A Builder that cannot find its brief will invent one.
-   - Be explicit about which paths are in its worktree and which are in the main copy. The same file exists at two paths and they are not interchangeable.
-3. Fan-out inside an effort is unbounded. The three-effort ceiling is about efforts, not slices. A one-slice plan means one Builder, and that is a correct outcome rather than a failure to parallelise.
-4. As each Builder returns, dispatch a Reviewer on **that** slice immediately. Do not wait for the whole wave. A slice reviews while its neighbours are still building.
-5. Read the findings. You decide what gets acted on. A blocking finding goes back as a new Builder task on the same slice, never to the instance that wrote it.
-6. Merge in dependency order. Builders never merge; you do, or you dispatch integration explicitly. Use `git -C <repo>`; never change directory.
-7. **Remove each worktree once its slice is merged**, so a dead worktree never gets handed to a later Builder:
-
-   ```bash
-   git -C <repo> worktree remove <worktrees-dir>/<effort>-<slice>
-   ```
-
-8. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh.
-9. When every slice is merged and reviewed, update `.effort/CLAIM.md`, then post the gate-3 brief. End the run.
-
-## Phase 4: Deliver
-
-Only after the operator has approved gate three. Dispatch the Courier. Nothing else.
+| Phase | Read | Ends at |
+|---|---|---|
+| 2. Plan | [`PHASE-2-PLAN.md`](PHASE-2-PLAN.md) | Gate 2 |
+| 3. Build | [`PHASE-3-BUILD.md`](PHASE-3-BUILD.md) | Gate 3 |
+| 4. Deliver | [`PHASE-4-DELIVER.md`](PHASE-4-DELIVER.md) | Effort closed |
 
 ## Human task steps
 

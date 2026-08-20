@@ -15,7 +15,7 @@ For every slice, answer in one sentence: **what can be demonstrated when this is
 
 The answer must be behaviour. "The schema has a `schedule` column" is not behaviour. "A user can set a schedule and see it persist across a reload" is.
 
-A slice with no answer is a horizontal slice, and horizontal slices are the failure mode this skill exists to prevent. Cutting by layer means every acceptance criterion reaches into work another slice owns, and the observed cost is severe: teams running layer-sliced stacks report roughly twenty agent runs per closed unit, most of it rework.
+A slice with no answer is a horizontal slice, and horizontal slices are the failure mode this skill exists to prevent. Cutting by layer means every acceptance criterion reaches into work another slice owns, so nothing can be verified until the last slice lands and the rework arrives all at once.
 
 Ask the question once per slice. It takes seconds and it catches almost everything.
 
@@ -78,3 +78,5 @@ Three bad shapes recur: a criterion already true before any work, a criterion on
 ## Present before you publish
 
 Show the numbered breakdown with its edges and get it confirmed before anything is dispatched. Ask directly whether the granularity is right, whether the edges are real, and whether anything should merge or split. This is the cheapest moment to fix a bad cut, and it is the last one.
+
+**Done when** every slice carries a demonstration, a seam, an acceptance criterion that is red at its base commit, and its blocking edges.

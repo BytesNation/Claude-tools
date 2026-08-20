@@ -57,3 +57,5 @@ What survives: `decisions.md` and `decisions/` in the repository, and the knowle
 ## Report back
 
 A short close-out: what shipped, what verification showed, which briefs were drafted and for whom, where the knowledge-base note landed, and what was deleted. Flag anything still waiting on the operator.
+
+**Done when** all four steps above are either done or reported as skipped with the reason.

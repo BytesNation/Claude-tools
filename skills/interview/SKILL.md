@@ -1,6 +1,6 @@
 ---
 name: interview
-description: Interview someone about a plan, design, or decision until every branch is resolved. The alignment primitive underneath concept work. Use when the plan is still fuzzy and the words for it are not settled.
+description: Interview someone about a plan, design, or decision until every branch is resolved. Use when the plan is still fuzzy and the words for it are not settled.
 ---
 
 # Interview
