@@ -45,10 +45,10 @@ Write for the named person and the one thing they need to do:
 
 Draft only. Sending is gated, always.
 
-For client-facing and money-facing efforts, keep a copy of exactly what was sent, to whom, and on what date. Internal and personal efforts keep nothing.
-
 ## What a brief is not
 
 Not a log of what happened. Not the artifact itself. Not a place to demonstrate thoroughness.
 
 If a section exists only to show work was done, cut it. If a sentence could appear unchanged in a brief for a different effort, it says nothing about this one and it goes.
+
+**Done when** every section left standing carries something the reader needs in order to decide.

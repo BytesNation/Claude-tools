@@ -61,9 +61,7 @@ The condition that would make this worth reopening. Write one, or admit there is
 
 ## Tier 3: the brief
 
-Never stored. Generated per recipient at send time by the `brief` skill.
-
-An internal record is dense, uses the project's jargon, and assumes context. A partner-facing document is short, assumes nothing, and exists so one person makes one decision. Those requirements are opposite, and the reason documentation becomes incomprehensible to the receiving party is almost always that one artifact was asked to serve both audiences.
+Never stored. Generated per recipient at send time by the `brief` skill, which owns the shape.
 
 Do not maintain partner documentation. Regenerate it.
 
@@ -77,9 +75,7 @@ Never delete a record. Superseded records stay, marked, out of the reading path.
 
 ## What does not go here
 
-Specs, plans, research findings, review output, and checkpoint drafts all live in `.effort/`, which is gitignored and deleted at delivery.
-
-A stale research file is worse than no research file. The next agent reads it as current and builds on something that stopped being true in April. Only decisions persist.
+Specs, plans, research findings, review output, and checkpoint drafts all live in `.effort/`, which is gitignored and deleted at delivery. Only decisions persist.
 
 ## The permanent note
 

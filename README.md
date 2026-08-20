@@ -28,6 +28,8 @@ The run **stops** at each gate. There is no poller and nothing waits: the brief 
 
 Gate one is the one to protect. It is where a wrong turn is cheapest to catch and the one that gets skipped.
 
+Which is why phases 2, 3 and 4 live in their own files beside `skills/effort/SKILL.md` rather than inside it. A run genuinely ends at each gate, so that is a real context boundary, and a phase worked with the later phases sitting in view is a phase that gets rushed. Phase 1 stays in `SKILL.md`: hiding a step protects the step in front of it, not itself.
+
 ## Stop for consequence, never for ambiguity
 
 The crew does not halt on unclear requirements. It takes the most defensible reading, writes the assumption down, and keeps moving, then surfaces every assumption at the next gate where correcting one is nearly free.
@@ -36,7 +38,7 @@ What does stop the line: secrets and credentials, anything a third party will se
 
 ## The disciplines
 
-Six skills the roles pull in. Three are preloaded into the agents that need them via `skills:` frontmatter, so the discipline is in context before the first turn rather than hopefully invoked.
+Nine skills the roles pull in. Three are preloaded into the agents that need them via `skills:` frontmatter, so the discipline is in context before the first turn rather than hopefully invoked.
 
 | Skill | Used by | For |
 |---|---|---|
@@ -46,6 +48,23 @@ Six skills the roles pull in. Three are preloaded into the agents that need them
 | `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. |
 | `brief` | Architect, Courier | BLUF checkpoint briefs, and partner briefs generated per recipient rather than maintained. |
 | `two-axis-review` | Reviewer | Standards and spec, answered independently, never blended into one verdict. |
+| `unslop` | Anything writing prose | Cuts AI tells from writing a person will read. |
+| `writing-for-agents` | You, editing this repo | The levers that make a document an agent consumes behave the same way every run. |
+
+## Two kinds of prose
+
+Writing for a person and writing for an agent want opposite things, and one rule for both produces bad versions of each. A brief wants voice, rhythm, and an opinion. A `SKILL.md` wants none of that: flat, deduplicated, and the same shape every run.
+
+So the two skills split by reader, and the routing belongs in your own `CLAUDE.md`:
+
+```markdown
+Always apply the `unslop` skill to prose a person reads: chat, documents, READMEs,
+commit messages, briefs. Prose an agent consumes goes to `writing-for-agents`
+instead: SKILL.md files, CLAUDE.md, AGENTS.md, subagent prompts, and an effort's
+spec.md and plan.md.
+```
+
+Without that line you get `unslop` announcing it must always apply and nothing telling it where to stop.
 
 ## Why decisions are the only thing that persists
 
@@ -109,3 +128,5 @@ Concurrency is capped at three efforts. Three gates each against one reader is n
 ## License
 
 MIT. See [LICENSE](LICENSE). Take it, change it, ship it.
+
+One exception: `skills/writing-for-agents/SKILL.md` and `SKILL-MECHANICS.md` are the work of [Matt Pocock](https://github.com/mattpocock/skills), redistributed here under their own MIT licence, which sits in that folder alongside a `CREDIT.md` noting what we changed. `AUDIT.md` in the same folder is ours.
