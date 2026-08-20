@@ -52,9 +52,43 @@ If the work has no repository, say so and ask whether to create one. An effort n
 
 ## Before you start
 
-Check how many efforts are already in flight. **Three is the ceiling.** Three gates each against one reader means nine briefs a cycle, which is the point where they stop being read and start being rubber-stamped. If three are already open, say so and ask which one to close first rather than starting a fourth.
+**Check for a claim first.** Read `.effort/CLAIM.md` in the working copy. If it exists, another Architect already holds this effort. Do not start. Report what it says (when it started, what phase it reached, when it was last touched) and ask whether to take it over or leave it alone. Only the operator decides that.
+
+If there is no claim, write one before anything else:
+
+```markdown
+# CLAIM
+effort: <slug>
+started: <ISO timestamp>
+phase: concept
+head: <the commit the effort starts from>
+last-touched: <ISO timestamp>
+```
+
+Update `phase`, `head` and `last-touched` at every gate. The Courier deletes it with the rest of `.effort/` at delivery.
+
+This costs nothing and it is the only thing standing between two sessions and the same files. The three-effort ceiling counts efforts, not sessions, so without a claim two Architects will happily run the same work, fire duplicate Scouts at the same questions, and write over each other.
+
+Then check how many efforts are in flight. **Three is the ceiling.** Three gates each against one reader means nine briefs a cycle, which is the point where they stop being read and start being rubber-stamped. If three are already open, say so and ask which one to close first rather than starting a fourth.
 
 Then read what already exists: `decisions.md` in the repository, the effort's knowledge-base note if it has one, and any prior `decisions/` records covering this area. You are bound by decisions already made. If one of them is wrong, say so out loud rather than quietly designing around it.
+
+## Every phase begins by re-reading the world
+
+A run **ends** at each gate, and time passes before the next one starts. Hours, sometimes. The repository moves, other sessions run, and the state you reasoned about is no longer the state in front of you.
+
+So the first act of phases 2, 3 and 4 is not the work. It is checking what changed:
+
+```bash
+git -C <repo> log --oneline <head-recorded-in-CLAIM>..HEAD
+git -C <repo> status --short
+```
+
+If `HEAD` has moved since the claim recorded it, **stop and read what landed** before doing anything else. Someone may have built the thing you were about to build. Report what moved and who moved it rather than dispatching on top of it.
+
+Also re-list `.effort/scout/` and compare it against what you filed. Files you did not write mean another run touched this effort, and its findings may be better than yours.
+
+Never assume the plan you wrote is still the plan the repository needs. Verifying costs two commands. Building on a stale premise costs the whole phase.
 
 ## Phase 1: Concept
 
@@ -64,7 +98,7 @@ Then read what already exists: `decisions.md` in the repository, the effort's kn
    - Read what comes back rather than trusting it. A Scout that says medium confidence, or that reports a fetch it could not complete, is telling you which of its claims still need checking. Verify anything load-bearing yourself before a decision rests on it.
 3. Record decisions as they resolve, per the `decision-record` skill. Do not batch them to the end.
 4. Write `.effort/spec.md`. Include what is explicitly out of scope. The things refused are usually the most useful lines on the page.
-5. Post the gate-1 brief per the `brief` skill. End the run.
+5. Update `.effort/CLAIM.md` (phase, head, last-touched), then post the gate-1 brief per the `brief` skill. End the run.
 
 ## Phase 2: Plan
 
@@ -72,7 +106,7 @@ Then read what already exists: `decisions.md` in the repository, the effort's kn
 2. For every slice, answer "what can be demonstrated when this is done?" A slice with no answer is a layer. Recut it.
 3. Write `.effort/plan.md` holding the slices and the blocking edges between them. This graph is yours and it never leaves the effort folder.
 4. Agree the test seams here, in the spec, not during the build. A Builder handed no seam will pick one, and a test at an unagreed seam gets deleted the first time the implementation moves.
-5. Post the gate-2 brief. End the run.
+5. Update `.effort/CLAIM.md`, then post the gate-2 brief. End the run.
 
 ## Phase 3: Build
 
@@ -102,7 +136,7 @@ Then read what already exists: `decisions.md` in the repository, the effort's kn
    ```
 
 8. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh.
-9. When every slice is merged and reviewed, post the gate-3 brief. End the run.
+9. When every slice is merged and reviewed, update `.effort/CLAIM.md`, then post the gate-3 brief. End the run.
 
 ## Phase 4: Deliver
 
@@ -138,6 +172,7 @@ Prepare the change and run it in check mode. Present the diff at gate three. Aft
   decisions.md      one line per decision. committed. persists.
   decisions/        full records, only when gated. committed. persists.
   .effort/          gitignored. deleted at delivery.
+    CLAIM.md        who holds this effort, what phase, from which commit
     spec.md
     plan.md
     scout/

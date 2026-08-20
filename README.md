@@ -100,6 +100,10 @@ Two things are setup-specific and read from your `CLAUDE.md` or `AGENTS.md` rath
 - Where the Courier writes the permanent per-effort note. With none configured it skips the step and says so.
 - Where efforts and their artifacts live.
 
+An effort writes `.effort/CLAIM.md` when it starts and updates it at every gate. Another Architect finding a live claim stops and asks rather than starting. The ceiling counts efforts, not sessions, so without this two sessions will happily run the same work and write over each other.
+
+Because a run *ends* at each gate, every phase after the first begins by re-reading the repository rather than trusting the plan it wrote. Hours can pass between gates and the work may already be done.
+
 Concurrency is capped at three efforts. Three gates each against one reader is nine briefs a cycle, which is roughly where they stop being read and start being rubber-stamped. Fan-out *inside* an effort is unbounded.
 
 ## License
