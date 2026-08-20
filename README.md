@@ -129,4 +129,7 @@ Concurrency is capped at three efforts. Three gates each against one reader is n
 
 MIT. See [LICENSE](LICENSE). Take it, change it, ship it.
 
-One exception: `skills/writing-for-agents/SKILL.md` and `SKILL-MECHANICS.md` are the work of [Matt Pocock](https://github.com/mattpocock/skills), redistributed here under their own MIT licence, which sits in that folder alongside a `CREDIT.md` noting what we changed. `AUDIT.md` in the same folder is ours.
+Two skills here are not ours. Both are MIT, both are redistributed with their own licence and a `CREDIT.md` in their folder noting exactly what we changed:
+
+- `skills/writing-for-agents/`: `SKILL.md` and `SKILL-MECHANICS.md` by [Matt Pocock](https://github.com/mattpocock/skills). `AUDIT.md` beside them is ours.
+- `skills/unslop/`: `SKILL.md` by [Lauren Tan](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop), via cursor/plugins. Our changes are two lines, listed in that folder's `CREDIT.md`.
