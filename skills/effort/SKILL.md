@@ -79,10 +79,12 @@ Then read what already exists: `decisions.md` in the repository, the effort's kn
 1. **Create each worktree yourself, before dispatching.** One per slice, outside the repository tree:
 
    ```bash
-   git -C <repo> worktree add <worktrees-dir>/<effort>-<slice> -b <effort>/<slice>
+   git -C <repo> worktree add -q <worktrees-dir>/<effort>-<slice> -b <effort>/<slice>
    ```
 
    Do not rely on a Builder's frontmatter for isolation. Frontmatter worktree isolation binds to the *session's* working directory rather than to the repository the work lives in, so it fails outright whenever the session is rooted elsewhere, which is most of the time. Creating them yourself works from any session and you control the cleanup.
+
+   Use `-q`. Without it git prints a per-file progress bar, which on a large repository is thousands of lines of noise into your context for every slice.
 
    Tell each Builder the absolute path of its worktree and say plainly that it is to work there.
 
