@@ -81,14 +81,27 @@ The reason external documentation becomes unreadable is almost always that one a
 ## Install
 
 ```bash
-git clone https://github.com/BytesNation/Claude-tools.git
-cp -r Claude-tools/agents/* ~/.claude/agents/
-cp -r Claude-tools/skills/* ~/.claude/skills/
+claude plugin marketplace add BytesNation/Claude-tools
+claude plugin install claude-tools@bytesnation
 ```
+
+That installs at user scope, so the crew is available in every session. `--scope project` writes to the project's `.claude/settings.json` instead and travels with the repository, which is what you want if a team shares it. Later, `claude plugin update claude-tools`.
 
 Restart Claude Code. Agent definitions load at session start, so nothing applies until you do.
 
 Then start work with `/effort <what you want built>`.
+
+### The two installs name things differently
+
+A plugin namespaces what it ships, so the Builder is `claude-tools:builder` under a plugin install and plain `builder` under a manual one. `skills/effort/SKILL.md` tells the Architect which agent to spawn for each role, so use whichever form your install actually produced. The manual install is the one this crew has been run on; the plugin path is newer and less exercised.
+
+### Installing by hand instead
+
+```bash
+git clone https://github.com/BytesNation/Claude-tools.git
+cp -r Claude-tools/agents/* ~/.claude/agents/
+cp -r Claude-tools/skills/* ~/.claude/skills/
+```
 
 ### Two skills are more than one file
 
