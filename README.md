@@ -90,6 +90,35 @@ Restart Claude Code. Agent definitions load at session start, so nothing applies
 
 Then start work with `/effort <what you want built>`.
 
+### Two skills are more than one file
+
+Most skills here are a lone `SKILL.md`. Two are not, and lifting just the `SKILL.md` out of either leaves pointers aimed at files that are not there.
+
+```
+skills/effort/
+  SKILL.md              identity, the crew, the gates, the precondition, phase 1
+  PHASE-2-PLAN.md
+  PHASE-3-BUILD.md
+  PHASE-4-DELIVER.md
+
+skills/writing-for-agents/
+  SKILL.md
+  SKILL-MECHANICS.md    frontmatter, invocation, router skills
+  AUDIT.md              the editing pass to run against a target document
+  LICENSE, CREDIT.md    upstream is MIT, see the licence section
+```
+
+The Architect reads the file for the phase it is in, so a run that reaches gate two with no `PHASE-2-PLAN.md` beside it has nothing to follow and will improvise a plan phase. Take the whole directory.
+
+### Upgrading
+
+The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
+
+```bash
+rm -rf ~/.claude/skills/effort
+cp -r Claude-tools/skills/effort ~/.claude/skills/
+```
+
 ## Known limits
 
 **`/effort` cannot be invoked by a model.** It carries `disable-model-invocation: true`, so only you can start an effort. That is intentional, because an agent that can start work on its own authority can commit you to work you never asked for. It does mean kickoff is always something you type.
