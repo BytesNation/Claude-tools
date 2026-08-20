@@ -1,0 +1,68 @@
+---
+name: two-axis-review
+description: Review a diff on two independent axes, standards and spec, without blending them into one verdict. Use when reviewing built work, and read it before building to know what you will be judged on.
+---
+
+# Two-axis review
+
+Two questions about the same diff. They are answered independently and they are never merged.
+
+**Standards: is it built right?** Does this follow how this repository writes code.
+
+**Spec: is it the right thing?** Does this do what the slice and the spec asked for.
+
+## Why they never merge
+
+A change can pass one axis and fail the other, in both directions. Code that follows every convention while implementing the wrong feature passes Standards and fails Spec. Code that does exactly what the slice asked while breaking every convention does the reverse.
+
+Report a worst finding per axis. Never name a single worst finding across both, and never produce a blended score. A blend lets the passing axis hide the failing one, which is the exact outcome the split exists to prevent.
+
+## The fixed point
+
+Review `git diff <fixed-point>...HEAD`. The fixed point is a commit, a branch, or a tag, and someone has to supply it. Do not guess one.
+
+Confirm the ref resolves and the diff is non-empty before starting. Note that `...HEAD` excludes staged and working-tree changes, so an empty diff on work you were told exists usually means nothing was committed. Say that rather than reporting a clean review.
+
+## Standards
+
+The repository is the primary source and **the repository always overrides**. Read whatever it documents: a standards file, a contributing guide, the conventions visible in neighbouring code.
+
+A review that does not know the repository's own rules flags what was deliberate and misses the invariants the codebase actually depends on. That failure is the reason this axis reads local documentation first.
+
+Where the repository documents nothing, fall back on a smell baseline. Twelve, from Fowler:
+
+Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest.
+
+Each is a labelled heuristic, never a hard violation. Say "possible Feature Envy" and state what it is followed by how to fix it, so the finding arrives with a move attached rather than a complaint.
+
+Skip anything a linter or typechecker already enforces. Reporting what CI would have caught wastes the one pass someone will actually read.
+
+## Spec
+
+Read the originating slice and the spec. Look for three things:
+
+- A requirement missing or only partly implemented.
+- A requirement implemented, but not the way it was specified.
+- Scope nobody asked for. Extra work is a defect on this axis, not a bonus.
+
+Every finding cites the line of the spec it comes from. With no spec available, skip this axis and say "no spec available". Do not invent requirements to grade against.
+
+## Findings
+
+Each one carries an axis, a severity, one sentence stating the defect, the file and hunk, a citation, and the move that would fix it.
+
+Severity is blocking, worth doing, or noted. Be honest about the split. Marking everything blocking is the same as marking nothing.
+
+A finding with no citation is an opinion. Find the rule it breaks or drop it.
+
+## Independence
+
+The reviewer never has the builder's reasoning, and should not ask for it. The context that produced the work is precisely the context an independent reviewer would lack, and an agent reviewing its own output is confirmation bias with extra steps.
+
+Do not delegate the review onward, and do not spawn subagents to help. Review agents that rediscover their own tooling fan out into dozens of overlapping runs.
+
+Do not fix what you find. Report it. Someone else decides what gets acted on, and a reviewer that fixes things has become a second builder with nobody reviewing it.
+
+## A clean review is a good outcome
+
+If an axis is clean, say so in one line and stop. Padding a review with nitpicks to look thorough trains the reader to skim, and a skimmed review catches nothing.
