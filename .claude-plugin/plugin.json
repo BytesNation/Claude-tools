@@ -1,0 +1,21 @@
+{
+  "name": "claude-tools",
+  "displayName": "Claude Tools",
+  "version": "1.0.0",
+  "description": "A five-role agent crew and the disciplines it runs on, for taking work from concept to delivery with a human at the gates rather than in the loop.",
+  "author": {
+    "name": "BytesNation",
+    "url": "https://github.com/BytesNation"
+  },
+  "repository": "https://github.com/BytesNation/Claude-tools",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "crew",
+    "vertical-slices",
+    "test-first",
+    "code-review",
+    "decision-records",
+    "writing"
+  ]
+}

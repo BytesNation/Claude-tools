@@ -1,0 +1,17 @@
+{
+  "name": "bytesnation",
+  "owner": {
+    "name": "BytesNation",
+    "url": "https://github.com/BytesNation"
+  },
+  "description": "The effort crew and its disciplines, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "claude-tools",
+      "source": "./",
+      "description": "A five-role agent crew (Scout, Architect, Builder, Reviewer, Courier) and the nine skills it runs on. Concept to delivery with a human at three gates.",
+      "category": "engineering",
+      "keywords": ["agents", "crew", "vertical-slices", "test-first", "code-review"]
+    }
+  ]
+}
