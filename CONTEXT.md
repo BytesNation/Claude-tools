@@ -1,6 +1,6 @@
 # Context
 
-The words this repository uses, defined once. This describes Claude Tools itself; it is not a template or a file the plugin reads from your project.
+The words this repository uses, defined once. This describes Capstan itself; it is not a template or a file the plugin reads from your project.
 
 | Term | Means |
 |---|---|
@@ -14,6 +14,7 @@ The words this repository uses, defined once. This describes Claude Tools itself
 | Reviewer | Reviews one slice's diff without the Builder's reasoning. Reports, never fixes. |
 | Courier | Packages a delivered effort, writes the knowledge-base note, deletes the scratch. Never sends. |
 | Discipline | A skill the roles pull in, as opposed to a role itself. |
+| Namespace | The `capstan:` prefix a plugin install puts on every skill and agent. Absent under a manual install. |
 | Slice | A change that can be demonstrated on its own once it is done. |
 | Layer | A horizontal cut that nothing can demonstrate until other cuts land. What a slice must never be. |
 | Seam | The test boundary agreed in the spec before the build, so a Builder never picks its own. |

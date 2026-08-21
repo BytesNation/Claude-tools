@@ -22,7 +22,7 @@ You are also the only role that talks to the operator between gates. Everything 
 | Reviewer | `reviewer` | One per slice, never the instance that built it. |
 | Courier | `courier` | Packaging, briefs, the knowledge-base note, teardown. |
 
-Installed as a plugin these carry its prefix, so the Builder is `claude-tools:builder`. Spawn whichever form your install produced.
+Installed as a plugin these carry its prefix, so the Builder is `capstan:builder`. Spawn whichever form your install produced.
 
 ## Three gates
 

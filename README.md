@@ -1,6 +1,6 @@
-# Claude Tools
+# Capstan
 
-A five-role agent crew and the disciplines it runs on, for taking work from concept to delivery with a human at the gates rather than in the loop.
+A Claude Code plugin: a five-role agent crew that takes work from concept to delivery, with a human at the gates rather than in the loop.
 
 Plain markdown. No scripts, no schemas, no hooks, no scheduler. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not.
 
@@ -86,27 +86,29 @@ The reason external documentation becomes unreadable is almost always that one a
 ## Install
 
 ```bash
-claude plugin marketplace add BytesNation/Claude-tools
-claude plugin install claude-tools@bytesnation
+claude plugin marketplace add BytesNation/capstan
+claude plugin install capstan@bytesnation
 ```
 
 That installs at user scope, so the crew is available in every session. `--scope project` writes to the project's `.claude/settings.json` instead and travels with the repository, which is what you want if a team shares it. Later, when a new version lands, see [Upgrading](#upgrading) below for how it actually reaches your machine.
 
 Restart Claude Code. Agent definitions load at session start, so nothing applies until you do.
 
-Then start work with `/effort <what you want built>`.
+Then start work with `/capstan:effort <what you want built>`.
 
 ### The two installs name things differently
 
-A plugin namespaces what it ships, so the Builder is `claude-tools:builder` under a plugin install and plain `builder` under a manual one. `skills/effort/SKILL.md` tells the Architect which agent to spawn for each role, so use whichever form your install actually produced. The manual install is the one this crew has been run on; the plugin path is newer and less exercised.
+A plugin namespaces what it ships, so the Builder is `capstan:builder` under a plugin install and plain `builder` under a manual one. `skills/effort/SKILL.md` tells the Architect which agent to spawn for each role, so use whichever form your install actually produced. The manual install is the one this crew has been run on; the plugin path is newer and less exercised.
 
 ### Installing by hand instead
 
 ```bash
-git clone https://github.com/BytesNation/Claude-tools.git
-cp -r Claude-tools/agents/* ~/.claude/agents/
-cp -r Claude-tools/skills/* ~/.claude/skills/
+git clone https://github.com/BytesNation/capstan.git
+cp -r capstan/agents/* ~/.claude/agents/
+cp -r capstan/skills/* ~/.claude/skills/
 ```
+
+Then start work with `/effort <what you want built>`.
 
 ### Two skills are more than one file
 
@@ -130,31 +132,47 @@ The Architect reads the file for the phase it is in, so a run that reaches gate 
 
 ### Upgrading
 
-Coming from 1.0.0, the two things you will notice are `CONTEXT.md`, the glossary, and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
+**Marketplace install, crossing the rename.** For 2.0.0, BytesNation renamed the repository and the plugin along with it. GitHub redirects the old address, so `git ls-remote` against `BytesNation/Claude-tools` still resolves, and that has been checked directly. A marketplace you already added with `claude plugin marketplace add BytesNation/Claude-tools` keeps working, and you do not need to re-add it.
 
-**Marketplace install.** Bumping the version in `plugin.json` does not, by itself, put a new release on your machine. Third-party marketplaces ship with auto-update off, so you pull the update yourself. From a shell, two steps, in order:
+The plugin name itself does not carry over, though. `claude-tools` and `capstan` are different identifiers to the CLI, so there is no update path between them, only uninstall then install:
+
+```bash
+claude plugin uninstall claude-tools@bytesnation
+claude plugin marketplace update bytesnation
+claude plugin install capstan@bytesnation
+```
+
+If you installed with `--scope project`, add `-s project` to both the uninstall and the install command, since both default to user scope on their own.
+
+Restart Claude Code once that finishes. Every `/claude-tools:*` command becomes `/capstan:*`, and the old namespace disappears. This three-step sequence has not been run against a live install.
+
+**Marketplace install, ordinary version bumps.** Once you are on `capstan`, a later release updates the way any plugin does. No rename involved:
 
 ```bash
 claude plugin marketplace update bytesnation
-claude plugin update claude-tools@bytesnation
+claude plugin update capstan@bytesnation
 ```
 
-The first refreshes the marketplace catalog. On its own that installs nothing, so stopping there leaves you on the old version while believing you upgraded. The second step does the install, and it needs the marketplace-qualified name, `claude-tools@bytesnation`. The bare name does not resolve. `claude plugin update claude-tools` fails with `Plugin "claude-tools" not found`. Run it right and the CLI answers `Plugin "claude-tools" updated from 1.0.0 to 1.1.0 for scope user. Restart to apply changes.` Restart the session once you see that.
+The first refreshes the marketplace catalog. On its own that installs nothing, so stopping there leaves you on the old version while believing you upgraded. In a session, `/plugin marketplace update bytesnation` does the same refresh; nobody has watched the install step run through the `/plugin` manager, so this README stops short of a claim there and documents the CLI form of that step instead.
 
-The shell sequence above is the one that was actually run. In a session, `/plugin marketplace update bytesnation` is the in-session form of the refresh step; nobody has watched the install step run through the `/plugin` manager, so this README stops short of a claim there.
+The second step does the install, and it needs the marketplace-qualified name, `capstan@bytesnation`. The bare name does not resolve. Add `-s project` to it if you installed at project scope, since `claude plugin update` defaults to user scope the same as install and uninstall.
 
-`/plugin`, under the Marketplaces tab, has a toggle to auto-update instead. Leave it off. The whole point of this crew is a human at the gates rather than in the loop, and auto-update means a new commit reaches your machine before anyone has read it.
+Restart Claude Code once that finishes. `claude plugin update --help` says as much itself: "Update a plugin to the latest version (restart required to apply)."
+
+`/plugin`, under the Marketplaces tab, has a toggle to auto-update instead of the commands above. It cannot cross this rename. `claude-tools` and `capstan` are different identifiers to the CLI, so the toggle has nothing to bridge them, and a `claude-tools` install left on auto-update sits on 1.1.0 with no error to say so. Leave it off regardless. Third-party marketplaces ship with auto-update off, and the reason to keep it that way is the same one behind every gate in this crew: a human decides before a new commit reaches your machine, not after.
+
+Coming from 1.0.0, now two versions back, the two things you will notice are `CONTEXT.md`, the glossary, and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
 
 **Manual install.** The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
 
 ```bash
 rm -rf ~/.claude/skills/effort
-cp -r Claude-tools/skills/effort ~/.claude/skills/
+cp -r capstan/skills/effort ~/.claude/skills/
 ```
 
 ## Known limits
 
-**`/effort` cannot be invoked by a model.** It carries `disable-model-invocation: true`, so only you can start an effort. That is intentional, because an agent that can start work on its own authority can commit you to work you never asked for. It does mean kickoff is always something you type.
+**`/capstan:effort` cannot be invoked by a model.** It carries `disable-model-invocation: true`, so only you can start an effort. That is intentional, because an agent that can start work on its own authority can commit you to work you never asked for. It does mean kickoff is always something you type.
 
 **Bash is an escape hatch.** Scout's read-only guarantee is structural: its tool grant contains no write tools, so the harness enforces it. Builder, Reviewer, and Courier all hold Bash, so their "never do X" rules are prose, not enforcement. If you want the gates enforced rather than requested, add a deny list to `settings.json`.
 
