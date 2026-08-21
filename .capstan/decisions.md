@@ -4,6 +4,7 @@
 |---|------|----------|--------|
 | 21 | 2026-08-21 | Scope widened two lines: README line 98's `/effort` becomes `/capstan:effort`, and the line 3 tagline adopts the new description | superseded by 22 |
 | 20 | 2026-08-21 | Both descriptions carry identical text. The longer gallery variant is dropped: "stops for your approval at three points along the way" contradicts `CONTEXT.md`, which defines a Gate as never a pause | accepted |
+| 83 | 2026-08-21 | Whether "Plain markdown. No scripts, no schemas, no hooks, no scheduler" reads as a reason to choose Capstan or as an implementation note. An independent read of the published page classified it as the latter, which is not what decision 76 put it there to do | open |
 | 82 | 2026-08-21 | The Architect's does-not-move-delete-or-commit guarantee is restored explicitly. It thinned one word per round across three rounds without anyone deciding to drop it, and the commit half had no carrier left | accepted |
 | 81 | 2026-08-21 | The first screen says the disciplines run through to delivery, not through to the review. Review stopped one phase short of the headline two lines above it, and of the Courier named in the same sentence | accepted |
 | 80 | 2026-08-21 | `DESIGN.md` is verbatim with two recorded exceptions: the disciplines lead line, which carries both the count fix per 75 and the preload correction, and one blank line at the seam where two sections became neighbours for the first time | accepted |
