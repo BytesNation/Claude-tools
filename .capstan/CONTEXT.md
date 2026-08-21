@@ -15,6 +15,9 @@ The words this repository uses, defined once. This describes Capstan itself; it 
 | Courier | Packages a delivered effort, writes the knowledge-base note, deletes the scratch. Never sends. |
 | Discipline | A skill the roles pull in, as opposed to a role itself. |
 | Front door | The `effort` skill, invoked by the operator to start a run. Neither a Discipline nor an Effort. |
+| Walkthrough | The one-time script that carries the operator through a manual procedure, stage by stage, capturing what comes back. Discarded with the effort's scratch once run. |
+| Spike | Throwaway work that answers one question: whether something behaves right or feels right. Never merged. |
+| Stage | One step of a Walkthrough, confirmed with the operator before it is authored. Counted in `TOTAL_STAGES`. |
 | Namespace | The `capstan:` prefix a plugin install puts on every skill and agent. Absent under a manual install. |
 | `.capstan/` | The folder holding the artifacts Capstan writes for itself: `CONTEXT.md`, `decisions.md`, `decisions/`, and the effort scratch at `effort/`. Distinct from the namespace above, which is a prefix rather than a folder. |
 | Slice | A change that can be demonstrated on its own once it is done. |

@@ -2,9 +2,9 @@
 
 A complete Claude Code agent environment for taking work from concept to delivery, with a human at three gates.
 
-You get five roles (Scout, Architect, Builder, Reviewer, Courier) that carry the work, eight disciplines that structure it from the interview through to delivery, and three gates where you decide whether the run continues.
+You get five roles (Scout, Architect, Builder, Reviewer, Courier) that carry the work, ten disciplines that structure it from the interview through to delivery, and three gates where you decide whether the run continues.
 
-Plain markdown. No scripts, no schemas, no hooks, no scheduler.
+Plain markdown, plus one vendored bash library that `walkthrough` builds throwaway scripts from.
 
 ## Install
 
@@ -23,13 +23,15 @@ The words above are load-bearing. [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md) d
 
 ## The disciplines
 
-Eight disciplines the roles pull in, plus `effort` itself: the front door, invoked only by you.
+Ten disciplines the roles pull in, plus `effort` itself: the front door, invoked only by you.
 
 | Skill | For |
 |---|---|
 | `interview` | Rounds of questions, each carrying a recommended answer, so decisions stay yours. |
+| `spike` | A throwaway build, so a stalled design question gets something concrete to react to. |
 | `slicing` | Cuts a locked plan into vertical slices with real blocking edges. |
 | `test-first` | Red, green, refactor, tested only at seams agreed in advance. |
+| `walkthrough` | The one-time script that carries the operator through a manual procedure, stage by stage, capturing what comes back. |
 | `decision-record` | A one-line log by default, a full record only when one is earned. |
 | `brief` | Checkpoint and partner briefs, generated per recipient rather than maintained. |
 | `two-axis-review` | Standards and spec, reviewed independently, never blended into one verdict. |
@@ -54,9 +56,9 @@ cp -r capstan/skills/* ~/.claude/skills/
 
 Then start work with `/effort <what you want built>`.
 
-### Two skills are more than one file
+### Three skills are more than one file
 
-Most skills here are a lone `SKILL.md`. Two are not, and lifting just the `SKILL.md` out of either leaves pointers aimed at files that are not there.
+Most skills here are a lone `SKILL.md`. Three are not, and lifting just the `SKILL.md` out of any of them leaves pointers aimed at files that are not there.
 
 ```
 skills/effort/
@@ -69,6 +71,11 @@ skills/writing-for-agents/
   SKILL.md
   SKILL-MECHANICS.md    frontmatter, invocation, router skills
   AUDIT.md              the editing pass to run against a target document
+  LICENSE, CREDIT.md    upstream is MIT, see the licence section
+
+skills/walkthrough/
+  SKILL.md              identity, how to author a stage, the two guards before a write leaves the machine
+  template.sh           vendored library, never edited
   LICENSE, CREDIT.md    upstream is MIT, see the licence section
 ```
 
@@ -135,9 +142,10 @@ Concurrency is capped at three efforts. Three gates each against one reader is n
 
 MIT. See [LICENSE](LICENSE). Take it, change it, ship it.
 
-Two skills here are not ours. Both are MIT, both are redistributed with their own licence and a `CREDIT.md` in their folder noting exactly what we changed:
+Three skills here are not ours. All three are MIT, all three are redistributed with their own licence and a `CREDIT.md` in their folder noting exactly what we changed:
 
 - `skills/writing-for-agents/`: `SKILL.md` and `SKILL-MECHANICS.md` by [Matt Pocock](https://github.com/mattpocock/skills). `AUDIT.md` beside them is ours.
 - `skills/unslop/`: `SKILL.md` by [Lauren Tan](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop), via cursor/plugins. Our changes are two lines, listed in that folder's `CREDIT.md`.
+- `skills/walkthrough/`: `template.sh` by [Matt Pocock](https://github.com/mattpocock/skills), vendored byte-identical to upstream. `SKILL.md` beside it is ours, written fresh around the library.
 
-Nothing else here is vendored, but one idea is borrowed. The frontier in `interview` (a design tree, where a question depending on an open question waits for a later round) is sharpened from Matt Pocock's [`grilling`](https://github.com/mattpocock/skills). The prose is ours. The mechanic is his.
+Beyond those three, nothing here is vendored, though one idea is borrowed. The frontier in `interview` (a design tree, where a question depending on an open question waits for a later round) is sharpened from Matt Pocock's [`grilling`](https://github.com/mattpocock/skills). The prose is ours. The mechanic is his.

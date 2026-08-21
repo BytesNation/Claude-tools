@@ -4,6 +4,10 @@
 |---|------|----------|--------|
 | 21 | 2026-08-21 | Scope widened two lines: README line 98's `/effort` becomes `/capstan:effort`, and the line 3 tagline adopts the new description | superseded by 22 |
 | 20 | 2026-08-21 | Both descriptions carry identical text. The longer gallery variant is dropped: "stops for your approval at three points along the way" contradicts `CONTEXT.md`, which defines a Gate as never a pause | accepted |
+| 111 | 2026-08-21 | "Two skills are more than one file" becomes three. `walkthrough/SKILL.md` points at two siblings, so lifting it alone leaves the dangling pointers that section exists to warn about | accepted |
+| 110 | 2026-08-21 | "Operating layer" lives in `DESIGN.md` only, where the paragraph around it defines it. No glossary row: a term used once, in the place it is explained, is not vocabulary | accepted |
+| 109 | 2026-08-21 | The first screen keeps a concrete positive claim. Forty-five words of negation would fit any repository; "plain markdown" fits this one and a stranger can check it in two seconds | accepted |
+| 108 | 2026-08-21 | The licence section counts three vendored skills. The slice made "Nothing else here is vendored" false while line 7 of the same file called `walkthrough` vendored, a contradiction inside one commit | accepted |
 | 107 | 2026-08-21 | Two of my own acceptance criteria were wrong again. Criterion 3 demanded `CREDIT.md` state nothing changed when it correctly records one; criterion 7 was looser than decision 88 and graded a lost requirement green | accepted |
 | 106 | 2026-08-21 | A spike flips its line to `accepted`, not `assumed`. An `assumed` line is re-raised in the next interview's first round, which is the silent return this discipline exists to stop | accepted |
 | 105 | 2026-08-21 | A spike names its branch in the decision line it settled. The rewrite fixed which line the answer goes into and dropped what that line has to carry | accepted |

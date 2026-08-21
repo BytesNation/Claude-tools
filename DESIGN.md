@@ -2,7 +2,7 @@
 
 This document holds the reasoning behind Capstan's shape, and it is not needed to install or use the plugin.
 
-Plain markdown. No scripts, no schemas, no hooks, no scheduler. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not.
+No operating layer: no schemas, no hooks, no scheduler, nothing that has to be maintained for the workflow to keep working. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not. `walkthrough` looks like an exception. It vendors 204 lines of bash. The script itself is generated for one run, handed to the operator, and thrown away, and the library it comes from is vendored and never edited. Nothing here needs upkeep to keep working, including that one.
 
 ## The crew
 
@@ -38,13 +38,15 @@ What does stop the line: secrets and credentials, anything a third party will se
 
 ## The disciplines
 
-Eight disciplines the roles pull in, plus `effort` itself, the front door invoked only by the operator. Three agents preload the disciplines they need via `skills:` frontmatter, so the discipline is in context before the first turn rather than hopefully invoked.
+Ten disciplines the roles pull in, plus `effort` itself, the front door invoked only by the operator. Three agents preload the disciplines they need via `skills:` frontmatter, so the discipline is in context before the first turn rather than hopefully invoked.
 
 | Skill | Used by | For |
 |---|---|---|
 | `interview` | Architect | Rounds of questions, each carrying a recommended answer. Facts are the agent's job, decisions are yours. Questions you cannot answer get parked in the log rather than lost. |
+| `spike` | Builder | A throwaway spike that settles whether something behaves right or feels right, for a design question the interview could not resolve. Never merged. |
 | `slicing` | Architect | Vertical slices with real blocking edges. Includes the expand-migrate-contract exception for wide refactors. |
 | `test-first` | Builder | Red, green, refactor. Tests at pre-agreed seams only. |
+| `walkthrough` | Architect | The one-time script for a human task step, stage by stage, confirming each and capturing what comes back. Vendors Matt Pocock's `wizard` library rather than reimplementing it. |
 | `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. Owns the `.capstan/CONTEXT.md` glossary, the one artifact edited in place. |
 | `brief` | Architect, Courier | BLUF checkpoint briefs, and partner briefs generated per recipient rather than maintained. |
 | `two-axis-review` | Reviewer | Standards and spec, answered independently, never blended into one verdict. |
