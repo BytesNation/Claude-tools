@@ -60,7 +60,7 @@ Some questions cannot be talked to a conclusion. "How should this feel" and "one
 
 When a question comes back unanswered twice, stop asking it and ask about the question instead. Three routes out, and the answer picks one:
 
-- **It needs something to react to.** Ask what the smallest throwaway is that would settle it, and who builds it. The effort proceeds without the answer and the question comes back once there is something to look at.
+- **It needs something to react to.** Ask what the smallest throwaway is that would settle it, and who builds it. This is a `spike`, per that discipline. The effort proceeds without the answer and the question comes back once there is something to look at.
 - **It needs knowledge held by someone else.** Ask who holds it and what exactly to send them. Produce the question in a form that can be pasted into a message, not a note to yourself.
 - **It does not matter yet.** Ask what the cheapest reversible default is and what would make it worth revisiting.
 
