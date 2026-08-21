@@ -28,7 +28,7 @@ Begin by re-reading the world, per [`SKILL.md`](SKILL.md). Then:
    git -C <repo> worktree remove <worktrees-dir>/<effort>-<slice>
    ```
 
-8. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh.
+8. Record any decision that arose during the build. Implementation teaches things, and those belong in the log while they are fresh. Vocabulary gaps returned by a Builder or a Reviewer settle here too: the term goes into `CONTEXT.md`, or the question goes into `decisions.md` as `open`.
 9. When every slice is merged and reviewed, update `.effort/CLAIM.md`, then post the gate-3 brief. End the run.
 
 **Done when** every slice in `plan.md` is built, reviewed, merged, and its worktree removed, and every review finding is actioned or dismissed on the record.

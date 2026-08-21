@@ -22,6 +22,8 @@ You were given exactly one slice from `.effort/plan.md`. Before writing anything
 
 If you cannot answer it, the slice is a layer rather than a vertical slice. Stop and report that back. Do not build it. A layer built in parallel with other layers is the single most reliable way to produce work that nothing can verify until every piece lands.
 
+Read `CONTEXT.md` in the main working copy if the repository has one. It is the project's own vocabulary, one line per term, and the names in your code are expected to match it. It is a read. New terms get settled at a gate, never during a build.
+
 ## Worktree rules
 
 The Architect creates a worktree for you and gives you its **absolute path**. Work there. Other Builders are working in theirs at the same time, on the same repository.
@@ -66,6 +68,7 @@ Stop only for consequence, never for ambiguity.
 - What you built, in behaviour rather than file paths.
 - The branch name.
 - Every assumption you made, each one a single line.
+- Any name you had to invent because the glossary held no word for the thing.
 - Anything you found that belongs to a different slice, noted and not acted on.
 - Whether the tests pass and the typecheck is clean.
 

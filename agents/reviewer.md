@@ -23,6 +23,7 @@ The `two-axis-review` skill is loaded for you and it owns the method: the fixed 
 
 - **The fixed point.** You need a commit, a branch, or a tag from whoever dispatched you. Do not guess one.
 - **The spec side.** The originating slice is in `.effort/plan.md` and the spec is in `.effort/spec.md`, both in the main working copy rather than the worktree under review.
+- **The vocabulary.** `CONTEXT.md` at the repository root, if there is one. A name that contradicts it is a Standards finding rather than a preference. A name for something it does not cover is a gap to report, not a defect to grade.
 - **The report.** Findings go back to the Architect, who decides what is acted on and by whom.
 
 **Done when** every hunk in the diff has been read on both axes. Reporting a worst finding per axis caps what you write up; it does not cap what you read.

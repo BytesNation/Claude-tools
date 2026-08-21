@@ -4,6 +4,8 @@ A five-role agent crew and the disciplines it runs on, for taking work from conc
 
 Plain markdown. No scripts, no schemas, no hooks, no scheduler. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not.
 
+The words below are load-bearing and each one is defined in [`CONTEXT.md`](CONTEXT.md). That file is this repo's own glossary, kept the way the plugin asks you to keep yours.
+
 ## The crew
 
 Roles are functions in a pipeline, not domains, so the same five handle a software feature, a client document, a video, or an infrastructure change.
@@ -42,10 +44,10 @@ Nine skills the roles pull in. Three are preloaded into the agents that need the
 
 | Skill | Used by | For |
 |---|---|---|
-| `interview` | Architect | Rounds of questions, each carrying a recommended answer. Facts are the agent's job, decisions are yours. |
+| `interview` | Architect | Rounds of questions, each carrying a recommended answer. Facts are the agent's job, decisions are yours. Questions you cannot answer get parked in the log rather than lost. |
 | `slicing` | Architect | Vertical slices with real blocking edges. Includes the expand-migrate-contract exception for wide refactors. |
 | `test-first` | Builder | Red, green, refactor. Tests at pre-agreed seams only. |
-| `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. |
+| `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. Owns the `CONTEXT.md` glossary, the one artifact edited in place. |
 | `brief` | Architect, Courier | BLUF checkpoint briefs, and partner briefs generated per recipient rather than maintained. |
 | `two-axis-review` | Reviewer | Standards and spec, answered independently, never blended into one verdict. |
 | `unslop` | Anything writing prose | Cuts AI tells from writing a person will read. |
@@ -66,13 +68,16 @@ spec.md and plan.md.
 
 Without that line you get `unslop` announcing it must always apply and nothing telling it where to stop.
 
-## Why decisions are the only thing that persists
+## Why decisions and the words for them are the only things that persist
 
-Three tiers, sorted by lifespan.
+Three tiers of decision, sorted by lifespan, and the glossary standing beside them.
 
+- **Glossary**: one line per term, [`CONTEXT.md`](CONTEXT.md) at the repo root. The only file here edited in place rather than superseded, because a glossary you have to read archaeologically is a glossary nobody reads. Every agent that writes or reviews code reads it; a name that contradicts it is a review finding.
 - **Log**: one line per decision, `decisions.md` at the repo root. Cannot bloat.
 - **Record**: a full document only when a decision is hard to reverse *and* surprising without context *and* a real trade-off. All three, so most efforts produce none.
 - **Brief**: generated per recipient at send time, never stored, never maintained.
+
+The log carries unsettled questions too. A question the interview could not resolve becomes an `open` line, or an `assumed` one when the crew picked a default to keep moving. Both get reported at every gate, neither blocks one, and the next interview reads them back before its first round. Without that, a hard question asked in March dies with the spec that held it.
 
 Everything else lives in a gitignored `.effort/` and is deleted at delivery. A stale spec or an old research file is worse than none, because the next agent reads it as current.
 
@@ -175,3 +180,5 @@ Two skills here are not ours. Both are MIT, both are redistributed with their ow
 
 - `skills/writing-for-agents/`: `SKILL.md` and `SKILL-MECHANICS.md` by [Matt Pocock](https://github.com/mattpocock/skills). `AUDIT.md` beside them is ours.
 - `skills/unslop/`: `SKILL.md` by [Lauren Tan](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop), via cursor/plugins. Our changes are two lines, listed in that folder's `CREDIT.md`.
+
+Nothing else here is vendored, but one idea is borrowed. The frontier in `interview` (a design tree, where a question depending on an open question waits for a later round) is sharpened from Matt Pocock's [`grilling`](https://github.com/mattpocock/skills). The prose is ours. The mechanic is his.

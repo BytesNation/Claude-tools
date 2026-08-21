@@ -16,6 +16,8 @@ Three tiers, sorted by how long each thing needs to survive. Nearly everything s
 
 | # | Date | Decision | Status |
 |---|------|----------|--------|
+| 11 | 2026-08-20 | Failed uploads retry 3x then dead-letter. Revisit if the queue is ever non-empty | assumed |
+| 10 | 2026-08-20 | Whether tenants share a schema or get one each | open |
 | 7 | 2026-08-20 | Sessions expire server-side, not by JWT claim | accepted |
 | 6 | 2026-08-19 | Single Postgres instance, no read replica yet | accepted |
 | 5 | 2026-08-14 | Config lives in the database, not env vars | superseded by 9 |
@@ -24,6 +26,19 @@ Three tiers, sorted by how long each thing needs to survive. Nearly everything s
 This is what an agent reads when it opens the repository cold, and what you scan six months later. It cannot bloat, because a line is a line.
 
 Write the line the moment the decision resolves, not batched at the end of a session. A decision that only exists in a context window is a decision that is about to be lost.
+
+### Statuses
+
+| Status | Means |
+|---|---|
+| `accepted` | Decided. |
+| `assumed` | Defaulted so the work could proceed. The line carries the condition that would make it worth reopening. |
+| `open` | Raised and unsettled. Nobody has decided and no default is in force. |
+| `superseded by NNNN` | Replaced. Stays in the file, out of the reading path. |
+
+`open` and `assumed` are what an interview parks when a question will not resolve, and they are the reason the `interview` skill reads this file before its first round. A question the operator could not answer in March is worth putting to them again in June. Without a line here it is simply forgotten, because the spec that held it was deleted at delivery.
+
+An `assumed` line is the cheaper half of the pair. It says work carried on under a default that nobody has blessed, which is a different thing from a decision, and the distinction is worth the extra word every time somebody asks why the code does that.
 
 ## Tier 2: the record
 
@@ -72,6 +87,28 @@ When a decision changes, write a new one that supersedes the old and cross-link 
 This is the mechanic that keeps the set honest, and it is mechanical enough to be worth doing without thinking. Editing an accepted record destroys the history of why the direction shifted, which is usually the most valuable thing in the folder.
 
 Never delete a record. Superseded records stay, marked, out of the reading path.
+
+## The glossary
+
+`CONTEXT.md` at the repository root. One line per term. Committed, and it persists for the same reason the log does: the project's own word for a thing is a decision about language, and re-deriving it costs a conversation every time.
+
+Create it lazily, on the first term that resolves. A repository with no settled vocabulary needs no file.
+
+```markdown
+# Context
+
+| Term | Means |
+|---|---|
+| Slice | A change that can be demonstrated on its own. Never a layer. |
+| Effort | One run from concept to delivery, holding one claim. |
+| Operator | The person at the gates. Never the crew. |
+```
+
+Vocabulary only. A `CONTEXT.md` that starts explaining how something works has become a spec, and a spec that outlives delivery is the stale artifact this whole model exists to prevent.
+
+**Edit it in place.** This is the one file here that is never superseded, because a glossary read archaeologically is a glossary nobody reads. It holds current truth and nothing else.
+
+The *change* is what gets recorded. When a term shifts meaning, or one word splits into two, write a numbered line in `decisions.md` saying so. Current definition in one file, history in the other, and neither doing the other's job.
 
 ## What does not go here
 
