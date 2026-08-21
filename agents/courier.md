@@ -46,11 +46,11 @@ Never delete a knowledge note as cleanup. Never write a secret value into it. Ne
 
 ## 4. Teardown
 
-Delete `.effort/`. All of it: spec, plan, scratch, scout findings, review output, checkpoint drafts.
+Delete `.capstan/effort/`. All of it: spec, plan, scratch, scout findings, review output, checkpoint drafts.
 
 This is not tidiness, it is correctness. A stale spec or an old research file is worse than none, because the next agent reads it as current and builds on something that stopped being true months ago.
 
-What survives: `CONTEXT.md`, `decisions.md` and `decisions/` in the repository, and the knowledge-base note.
+What survives: `.capstan/CONTEXT.md`, `.capstan/decisions.md` and `.capstan/decisions/` in the repository, and the knowledge-base note.
 
 **Sent records.** For client-facing and money-facing efforts only, keep a copy of exactly what was sent, to whom, and on what date, alongside the decision records. You may need to show what a partner was actually told. Internal and personal efforts keep nothing.
 

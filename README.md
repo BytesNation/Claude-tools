@@ -4,7 +4,7 @@ A Claude Code plugin: a five-role agent crew that takes work from concept to del
 
 Plain markdown. No scripts, no schemas, no hooks, no scheduler. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not.
 
-The words below are load-bearing and each one is defined in [`CONTEXT.md`](CONTEXT.md). That file is this repo's own glossary, kept the way the plugin asks you to keep yours.
+The words below are load-bearing and each one is defined in [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md). That file is this repo's own glossary, kept the way the plugin asks you to keep yours.
 
 ## The crew
 
@@ -47,7 +47,7 @@ Nine skills the roles pull in. Three are preloaded into the agents that need the
 | `interview` | Architect | Rounds of questions, each carrying a recommended answer. Facts are the agent's job, decisions are yours. Questions you cannot answer get parked in the log rather than lost. |
 | `slicing` | Architect | Vertical slices with real blocking edges. Includes the expand-migrate-contract exception for wide refactors. |
 | `test-first` | Builder | Red, green, refactor. Tests at pre-agreed seams only. |
-| `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. Owns the `CONTEXT.md` glossary, the one artifact edited in place. |
+| `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. Owns the `.capstan/CONTEXT.md` glossary, the one artifact edited in place. |
 | `brief` | Architect, Courier | BLUF checkpoint briefs, and partner briefs generated per recipient rather than maintained. |
 | `two-axis-review` | Reviewer | Standards and spec, answered independently, never blended into one verdict. |
 | `unslop` | Anything writing prose | Cuts AI tells from writing a person will read. |
@@ -72,14 +72,14 @@ Without that line you get `unslop` announcing it must always apply and nothing t
 
 Three tiers of decision, sorted by lifespan, and the glossary standing beside them.
 
-- **Glossary**: one line per term, [`CONTEXT.md`](CONTEXT.md) at the repo root. The only file here edited in place rather than superseded, because a glossary you have to read archaeologically is a glossary nobody reads. Every agent that writes or reviews code reads it; a name that contradicts it is a review finding.
-- **Log**: one line per decision, `decisions.md` at the repo root. Cannot bloat.
+- **Glossary**: one line per term, [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md). The only file here edited in place rather than superseded, because a glossary you have to read archaeologically is a glossary nobody reads. Every agent that writes or reviews code reads it; a name that contradicts it is a review finding.
+- **Log**: one line per decision, `.capstan/decisions.md`. Cannot bloat.
 - **Record**: a full document only when a decision is hard to reverse *and* surprising without context *and* a real trade-off. All three, so most efforts produce none.
 - **Brief**: generated per recipient at send time, never stored, never maintained.
 
 The log carries unsettled questions too. A question the interview could not resolve becomes an `open` line, or an `assumed` one when the crew picked a default to keep moving. Both get reported at every gate, neither blocks one, and the next interview reads them back before its first round. Without that, a hard question asked in March dies with the spec that held it.
 
-Everything else lives in a gitignored `.effort/` and is deleted at delivery. A stale spec or an old research file is worse than none, because the next agent reads it as current.
+Everything else lives in `.capstan/effort/`, the one gitignored piece of `.capstan/`, and is deleted at delivery. A stale spec or an old research file is worse than none, because the next agent reads it as current.
 
 The reason external documentation becomes unreadable is almost always that one artifact was made to serve two audiences with opposite needs. An internal record is dense and assumes context. A partner brief is short and assumes nothing. Do not maintain the second one. Regenerate it.
 
@@ -161,7 +161,11 @@ Restart Claude Code once that finishes. `claude plugin update --help` says as mu
 
 `/plugin`, under the Marketplaces tab, has a toggle to auto-update instead of the commands above. It cannot cross this rename. `claude-tools` and `capstan` are different identifiers to the CLI, so the toggle has nothing to bridge them, and a `claude-tools` install left on auto-update sits on 1.1.0 with no error to say so. Leave it off regardless. Third-party marketplaces ship with auto-update off, and the reason to keep it that way is the same one behind every gate in this crew: a human decides before a new commit reaches your machine, not after.
 
-Coming from 1.0.0, now two versions back, the two things you will notice are `CONTEXT.md`, the glossary, and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
+Coming from 1.0.0, now three versions back, the two things you will notice are the glossary at `.capstan/CONTEXT.md` and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
+
+Coming from 2.0.0, the artifacts Capstan writes for itself move under `.capstan/`. `CONTEXT.md`, `decisions.md`, and `decisions/` sat loose at the repository root; they move to `.capstan/CONTEXT.md`, `.capstan/decisions.md`, and `.capstan/decisions/`. The effort scratch sat at `.effort/`, gitignored rather than loose, and moves to `.capstan/effort/`.
+
+You have both of those today: a root `.effort/` and a `.gitignore` line that ignores it. Change that line to `.capstan/effort/`. The next time you start an effort against this repository, the Architect offers to move `CONTEXT.md`, `decisions.md`, and `decisions/` into place.
 
 **Manual install.** The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
 
@@ -190,7 +194,7 @@ That field resolves against the **session's** working directory rather than the 
 
 So the Architect runs `git -C <repo> worktree add ...` itself, hands each Builder an absolute path, and removes the worktree after the merge. Nothing ever changes directory, and the flow works from a session rooted anywhere, including somewhere with no repository at all.
 
-The related trap: `.effort/` is gitignored, so an effort's spec, plan, and research do not exist inside any worktree. Builders get absolute paths into the main working copy for those. A Builder that cannot find its brief will invent one.
+The related trap: `.capstan/effort/` is gitignored, so an effort's spec, plan, and research do not exist inside any worktree. Builders get absolute paths into the main working copy for those. A Builder that cannot find its brief will invent one.
 
 ## Configure
 
@@ -199,7 +203,7 @@ Two things are setup-specific and read from your `CLAUDE.md` or `AGENTS.md` rath
 - Where the Courier writes the permanent per-effort note. With none configured it skips the step and says so.
 - Where efforts and their artifacts live.
 
-An effort writes `.effort/CLAIM.md` when it starts and updates it at every gate. Another Architect finding a live claim stops and asks rather than starting. The ceiling counts efforts, not sessions, so without this two sessions will happily run the same work and write over each other.
+An effort writes `.capstan/effort/CLAIM.md` when it starts and updates it at every gate. Another Architect finding a live claim stops and asks rather than starting. The ceiling counts efforts, not sessions, so without this two sessions will happily run the same work and write over each other.
 
 Because a run *ends* at each gate, every phase after the first begins by re-reading the repository rather than trusting the plan it wrote. Hours can pass between gates and the work may already be done.
 

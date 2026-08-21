@@ -25,11 +25,11 @@ Confirm the ref resolves and the diff is non-empty before starting. Note that `.
 
 ## Standards
 
-The repository is the primary source and **the repository always overrides**. Read whatever it documents: `CONTEXT.md` if the repository keeps one, a standards file, a contributing guide, the conventions visible in neighbouring code.
+The repository is the primary source and **the repository always overrides**. Read whatever it documents: `.capstan/CONTEXT.md` if the repository keeps one, a standards file, a contributing guide, the conventions visible in neighbouring code.
 
 A review that does not know the repository's own rules flags what was deliberate and misses the invariants the codebase actually depends on. That failure is the reason this axis reads local documentation first.
 
-`CONTEXT.md` is the repository stating what it calls things, so it gives this axis its one citable naming rule. The rule splits in two, and only one half is a finding.
+`.capstan/CONTEXT.md` is the repository stating what it calls things, so it gives this axis its one citable naming rule. The rule splits in two, and only one half is a finding.
 
 **A name that contradicts the glossary.** Cite the term. Blocking when other code depends on the name: a type, an export, a column, anything public. Worth doing when it is local to one file. This is Mysterious Name with the rule already written down.
 

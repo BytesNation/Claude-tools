@@ -9,7 +9,7 @@ The most common failure in any build is not bad execution. It is that you though
 
 ## Before the first round
 
-Read `decisions.md` in the working copy. Every line marked `open` or `assumed` is a question a previous run could not settle, and it belongs in round one alongside whatever the operator just asked about.
+Read `.capstan/decisions.md` in the working copy. Every line marked `open` or `assumed` is a question a previous run could not settle, and it belongs in round one alongside whatever the operator just asked about.
 
 An `assumed` line is not settled, it is defaulted. Put it back on the table with its current default as the recommended answer.
 
@@ -64,7 +64,7 @@ When a question comes back unanswered twice, stop asking it and ask about the qu
 - **It needs knowledge held by someone else.** Ask who holds it and what exactly to send them. Produce the question in a form that can be pasted into a message, not a note to yourself.
 - **It does not matter yet.** Ask what the cheapest reversible default is and what would make it worth revisiting.
 
-Every route ends in a line in `decisions.md`, per the `decision-record` skill: `open` for the first two, `assumed` with a revisit condition for the third. Write it the moment the route is picked.
+Every route ends in a line in `.capstan/decisions.md`, per the `decision-record` skill: `open` for the first two, `assumed` with a revisit condition for the third. Write it the moment the route is picked.
 
 Parking a question is a finished outcome rather than a failure to finish. The frontier can be empty with questions still open on it.
 
@@ -76,7 +76,7 @@ Verbosity here causes real decision fatigue. Three paragraphs of framing around 
 
 ## Vocabulary as you go
 
-When a term resolves, write it into `CONTEXT.md` at the repository root immediately, one line, per the `decision-record` skill. Batching to the end of the session is how vocabulary gets lost, and the project's own word for a thing is worth more than a paragraph re-explaining the thing every time it comes up.
+When a term resolves, write it into `.capstan/CONTEXT.md` immediately, one line, per the `decision-record` skill. Batching to the end of the session is how vocabulary gets lost, and the project's own word for a thing is worth more than a paragraph re-explaining the thing every time it comes up.
 
 Challenge a word that is doing two jobs. "Account" meaning the company, the login, and the ledger entry is three concepts wearing one label, and every downstream conversation pays for it.
 

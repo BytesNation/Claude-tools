@@ -9,7 +9,7 @@ Three tiers, sorted by how long each thing needs to survive. Nearly everything s
 
 ## Tier 1: the log
 
-`decisions.md` at the repository root. One line per decision. Committed.
+`.capstan/decisions.md`. One line per decision. Committed.
 
 ```markdown
 # Decisions
@@ -50,7 +50,7 @@ A full document only when the decision passes **all three** gates:
 
 All three, not any one. Most decisions fail at least one, so most efforts produce a handful of log lines and no records at all. That is the design working, not the discipline slipping. Writing a record for every decision is exactly how decision folders became the bloat you are trying to avoid.
 
-Lives at `decisions/NNNN-short-slug.md`. Six sections, none longer than a paragraph:
+Lives at `.capstan/decisions/NNNN-short-slug.md`. Six sections, none longer than a paragraph:
 
 ```markdown
 # NNNN. Sessions expire server-side, not by JWT claim
@@ -90,7 +90,7 @@ Never delete a record. Superseded records stay, marked, out of the reading path.
 
 ## The glossary
 
-`CONTEXT.md` at the repository root. One line per term. Committed, and it persists for the same reason the log does: the project's own word for a thing is a decision about language, and re-deriving it costs a conversation every time.
+`.capstan/CONTEXT.md`. One line per term. Committed, and it persists for the same reason the log does: the project's own word for a thing is a decision about language, and re-deriving it costs a conversation every time.
 
 Create it lazily, on the first term that resolves. A repository with no settled vocabulary needs no file.
 
@@ -104,15 +104,15 @@ Create it lazily, on the first term that resolves. A repository with no settled 
 | Operator | The person at the gates. Never the crew. |
 ```
 
-Vocabulary only. A `CONTEXT.md` that starts explaining how something works has become a spec, and a spec that outlives delivery is the stale artifact this whole model exists to prevent.
+Vocabulary only. A `.capstan/CONTEXT.md` that starts explaining how something works has become a spec, and a spec that outlives delivery is the stale artifact this whole model exists to prevent.
 
 **Edit it in place.** This is the one file here that is never superseded, because a glossary read archaeologically is a glossary nobody reads. It holds current truth and nothing else.
 
-The *change* is what gets recorded. When a term shifts meaning, or one word splits into two, write a numbered line in `decisions.md` saying so. Current definition in one file, history in the other, and neither doing the other's job.
+The *change* is what gets recorded. When a term shifts meaning, or one word splits into two, write a numbered line in `.capstan/decisions.md` saying so. Current definition in one file, history in the other, and neither doing the other's job.
 
 ## What does not go here
 
-Specs, plans, research findings, review output, and checkpoint drafts all live in `.effort/`, which is gitignored and deleted at delivery. Only decisions persist.
+Specs, plans, research findings, review output, and checkpoint drafts all live in `.capstan/effort/`, which is gitignored and deleted at delivery. Only decisions persist.
 
 ## The permanent note
 

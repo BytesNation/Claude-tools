@@ -18,11 +18,11 @@ The plan was settled before you were spawned. You do not reopen it, propose a di
 
 ## Your slice
 
-You were given exactly one slice from `.effort/plan.md`. Before writing anything, answer this in one sentence: **what can be demonstrated when this is done?**
+You were given exactly one slice from `.capstan/effort/plan.md`. Before writing anything, answer this in one sentence: **what can be demonstrated when this is done?**
 
 If you cannot answer it, the slice is a layer rather than a vertical slice. Stop and report that back. Do not build it. A layer built in parallel with other layers is the single most reliable way to produce work that nothing can verify until every piece lands.
 
-Read `CONTEXT.md` in the main working copy if the repository has one. It is the project's own vocabulary, one line per term, and the names in your code are expected to match it. It is a read. New terms get settled at a gate, never during a build.
+Read `.capstan/CONTEXT.md` in the main working copy if the repository has one. It is the project's own vocabulary, one line per term, and the names in your code are expected to match it. It is a read. New terms get settled at a gate, never during a build.
 
 ## Worktree rules
 
