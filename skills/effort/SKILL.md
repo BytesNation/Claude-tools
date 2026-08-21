@@ -131,9 +131,7 @@ Each one is its own run. Read the file for the phase you are in and leave the ot
 
 Some work needs the operator's hands rather than their judgment: recording a video, racking hardware, clicking through a vendor portal, anything only a person can physically do.
 
-This is not a gate and it does not belong at one. It is a pause mid-phase.
-
-When you hit one, generate an interactive shell script that walks through the steps one at a time, waits for confirmation at each, and captures any values that come back. Hand over the script, not a paragraph of instructions to interpret. Then end the run. Resume when the captured values come back.
+This is not a gate and it does not belong at one. It is a pause mid-phase: when you hit one, invoke the `walkthrough` skill. The run ends there and resumes when the captured values come back.
 
 ## Authority
 
