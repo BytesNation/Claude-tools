@@ -163,9 +163,9 @@ Restart Claude Code once that finishes. `claude plugin update --help` says as mu
 
 Coming from 1.0.0, now three versions back, the two things you will notice are the glossary at `.capstan/CONTEXT.md` and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
 
-Coming from 2.0.0, the artifacts Capstan writes for itself move under `.capstan/`. `CONTEXT.md`, `decisions.md`, and `decisions/` sat loose at the repository root; they move to `.capstan/CONTEXT.md`, `.capstan/decisions.md`, and `.capstan/decisions/`. The effort scratch sat at `.effort/`, gitignored rather than loose, and moves to `.capstan/effort/`.
+Coming from 2.0.0, Capstan's own artifacts move under `.capstan/`. `CONTEXT.md`, `decisions.md`, and `decisions/` sat loose at the repository root; move them yourself to `.capstan/CONTEXT.md`, `.capstan/decisions.md`, and `.capstan/decisions/`, and change the `.gitignore` line from `.effort/` to `.capstan/effort/`. `.effort/` itself never moves; delete it. It is gitignored scratch that may already be absent.
 
-You have both of those today: a root `.effort/` and a `.gitignore` line that ignores it. Change that line to `.capstan/effort/`. The next time you start an effort against this repository, the Architect offers to move `CONTEXT.md`, `decisions.md`, and `decisions/` into place.
+The Architect does not move, delete, or commit any of this for you. It only detects: if any of those paths are still at the root when you start an effort, it asks whether they are Capstan's. Say yes to any of them, and the run ends there; move the files as above and start a new one. Say no, and it logs the answer and continues.
 
 **Manual install.** The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
 

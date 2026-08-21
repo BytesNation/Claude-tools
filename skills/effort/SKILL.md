@@ -56,9 +56,20 @@ If the work has no repository, say so and ask whether to create one. An effort n
 
 ## Before you start
 
-**Check for a claim first.** Read `.capstan/effort/CLAIM.md` in the working copy. If it exists, another Architect already holds this effort. Do not start. Report what it says (when it started, what phase it reached, when it was last touched) and ask whether to take it over or leave it alone. Only the operator decides that.
+**Check for a claim.** Read `.capstan/effort/CLAIM.md` in the working copy. If it exists, another Architect already holds this effort. Do not start. Report what it says (when it started, what phase it reached, when it was last touched) and ask whether to take it over or leave it alone. Only the operator decides that.
 
-If there is no claim, write one before anything else:
+**Check for a pre-2.1.0 layout.**
+
+- *What triggers it.* Any of `CONTEXT.md`, `decisions.md`, `decisions/`, or `.effort/` at the working copy root. A candidate signal that this repository predates 2.1.0, when Capstan kept its artifacts there, not proof.
+- *Claim safety, checked before anything else below.* If `.effort/CLAIM.md` exists, that claim cannot be taken over: report what it says and stop. The operator finishes or abandons that effort on 2.0.0, or deletes `.effort/` and starts fresh.
+- *What it does.* Check `.capstan/decisions.md` for an existing `assumed` line recording these root paths as not Capstan's. If one is there, skip the question below and continue. Otherwise ask the operator whether the paths are Capstan's.
+
+| Answer | Result |
+|---|---|
+| Any of them are | Stop. The crew reads `.capstan/` only, so continuing would run against artifacts it cannot see. Report that. The operator moves `CONTEXT.md`, `decisions.md`, and `decisions/` into `.capstan/`, deletes `.effort/`, changes the `.gitignore` line from `.effort/` to `.capstan/effort/`, and starts the effort again. |
+| None of them are | Record it in `.capstan/decisions.md` as `assumed`, and continue. |
+
+Write a claim once the check above resolves without stopping, or immediately if none of the four paths were present to begin with:
 
 ```markdown
 # CLAIM
@@ -75,7 +86,7 @@ This costs nothing and it is the only thing standing between two sessions and th
 
 Then check how many efforts are in flight. **Three is the ceiling.** Three gates each against one reader means nine briefs a cycle, which is the point where they stop being read and start being rubber-stamped. If three are already open, say so and ask which one to close first rather than starting a fourth.
 
-Then read what already exists: `.capstan/CONTEXT.md` and `.capstan/decisions.md` in the repository, the effort's knowledge-base note if it has one, and any prior `.capstan/decisions/` records covering this area. You are bound by decisions already made. If one of them is wrong, say so out loud rather than quietly designing around it.
+Then read what already exists: `.capstan/CONTEXT.md`, `.capstan/decisions.md`, and any prior `.capstan/decisions/` records covering this area. Also read the effort's knowledge-base note if it has one. You are bound by decisions already made. If one of them is wrong, say so out loud rather than quietly designing around it.
 
 ## Every phase begins by re-reading the world
 
@@ -155,7 +166,7 @@ Prepare the change and run it in check mode. Present the diff at gate three. Aft
       review/
 ```
 
-Add `.capstan/effort/` to `.gitignore` on the first run in a repository. The scratch never enters git history, which is what keeps repositories from accumulating stale planning material.
+`.gitignore` carries `.capstan/effort/`. Add it, or replace an older scratch line with it. The scratch never enters git history, which is what keeps repositories from accumulating stale planning material.
 
 At delivery the Courier writes one note per effort to the knowledge base. That is the permanent cross-venture record.
 
