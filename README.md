@@ -1,87 +1,10 @@
 # Capstan
 
-A Claude Code plugin: a five-role agent crew that takes work from concept to delivery, with a human at the gates rather than in the loop.
+A complete Claude Code agent environment for taking work from concept to delivery, with a human at three gates.
 
-Plain markdown. No scripts, no schemas, no hooks, no scheduler. That is deliberate: anything that needs code to stay alive is something you will eventually maintain or abandon, and prose survives a model change in a way a validator does not.
+You get five roles (Scout, Architect, Builder, Reviewer, Courier) that carry the work, eight disciplines that structure it from the interview through to delivery, and three gates where you decide whether the run continues.
 
-The words below are load-bearing and each one is defined in [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md). That file is this repo's own glossary, kept the way the plugin asks you to keep yours.
-
-## The crew
-
-Roles are functions in a pipeline, not domains, so the same five handle a software feature, a client document, a video, or an infrastructure change.
-
-| Role | Model | Owns | Never |
-|---|---|---|---|
-| **Scout** | sonnet / medium | Finding out. Primary sources, cited findings. Runs many in parallel. | Decides anything. Has no write tools at all. |
-| **Architect** | your session | The interview, the spec, the slice graph, the decision log. | Builds or reviews. |
-| **Builder** | sonnet / high | One vertical slice, test-first, in its own worktree. | Reviews itself. Touches a gated action. |
-| **Reviewer** | opus / xhigh | Independent two-axis review of the diff. | Sees the Builder's reasoning. Fixes what it finds. |
-| **Courier** | sonnet / medium | Packaging, recipient-specific briefs, the permanent record, teardown. | Sends anything. |
-
-The Architect is the only role that talks to you between gates. Five roles reporting independently is five inboxes.
-
-## Three gates
-
-The run **stops** at each gate. There is no poller and nothing waits: the brief is posted and the run ends. You resume by invoking the next phase.
-
-1. **Concept locked.** What we are building, why, and what we are explicitly not doing.
-2. **Plan locked.** How, cut into slices, what runs parallel, what was assumed.
-3. **Ready to deliver.** What was built, what review found, what goes to whom.
-
-Gate one is the one to protect. It is where a wrong turn is cheapest to catch and the one that gets skipped.
-
-Which is why phases 2, 3 and 4 live in their own files beside `skills/effort/SKILL.md` rather than inside it. A run genuinely ends at each gate, so that is a real context boundary, and a phase worked with the later phases sitting in view is a phase that gets rushed. Phase 1 stays in `SKILL.md`: hiding a step protects the step in front of it, not itself.
-
-## Stop for consequence, never for ambiguity
-
-The crew does not halt on unclear requirements. It takes the most defensible reading, writes the assumption down, and keeps moving, then surfaces every assumption at the next gate where correcting one is nearly free.
-
-What does stop the line: secrets and credentials, anything a third party will see, anything that costs money, and anything destructive or production-facing.
-
-## The disciplines
-
-Nine skills the roles pull in. Three are preloaded into the agents that need them via `skills:` frontmatter, so the discipline is in context before the first turn rather than hopefully invoked.
-
-| Skill | Used by | For |
-|---|---|---|
-| `interview` | Architect | Rounds of questions, each carrying a recommended answer. Facts are the agent's job, decisions are yours. Questions you cannot answer get parked in the log rather than lost. |
-| `slicing` | Architect | Vertical slices with real blocking edges. Includes the expand-migrate-contract exception for wide refactors. |
-| `test-first` | Builder | Red, green, refactor. Tests at pre-agreed seams only. |
-| `decision-record` | Architect, Courier | A one-line log by default, a full record only when it earns one, superseded rather than edited. Owns the `.capstan/CONTEXT.md` glossary, the one artifact edited in place. |
-| `brief` | Architect, Courier | BLUF checkpoint briefs, and partner briefs generated per recipient rather than maintained. |
-| `two-axis-review` | Reviewer | Standards and spec, answered independently, never blended into one verdict. |
-| `unslop` | Anything writing prose | Cuts AI tells from writing a person will read. |
-| `writing-for-agents` | You, editing this repo | The levers that make a document an agent consumes behave the same way every run. |
-
-## Two kinds of prose
-
-Writing for a person and writing for an agent want opposite things, and one rule for both produces bad versions of each. A brief wants voice, rhythm, and an opinion. A `SKILL.md` wants none of that: flat, deduplicated, and the same shape every run.
-
-So the two skills split by reader, and the routing belongs in your own `CLAUDE.md`:
-
-```markdown
-Always apply the `unslop` skill to prose a person reads: chat, documents, READMEs,
-commit messages, briefs. Prose an agent consumes goes to `writing-for-agents`
-instead: SKILL.md files, CLAUDE.md, AGENTS.md, subagent prompts, and an effort's
-spec.md and plan.md.
-```
-
-Without that line you get `unslop` announcing it must always apply and nothing telling it where to stop.
-
-## Why decisions and the words for them are the only things that persist
-
-Three tiers of decision, sorted by lifespan, and the glossary standing beside them.
-
-- **Glossary**: one line per term, [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md). The only file here edited in place rather than superseded, because a glossary you have to read archaeologically is a glossary nobody reads. Every agent that writes or reviews code reads it; a name that contradicts it is a review finding.
-- **Log**: one line per decision, `.capstan/decisions.md`. Cannot bloat.
-- **Record**: a full document only when a decision is hard to reverse *and* surprising without context *and* a real trade-off. All three, so most efforts produce none.
-- **Brief**: generated per recipient at send time, never stored, never maintained.
-
-The log carries unsettled questions too. A question the interview could not resolve becomes an `open` line, or an `assumed` one when the crew picked a default to keep moving. Both get reported at every gate, neither blocks one, and the next interview reads them back before its first round. Without that, a hard question asked in March dies with the spec that held it.
-
-Everything else lives in `.capstan/effort/`, the one gitignored piece of `.capstan/`, and is deleted at delivery. A stale spec or an old research file is worse than none, because the next agent reads it as current.
-
-The reason external documentation becomes unreadable is almost always that one artifact was made to serve two audiences with opposite needs. An internal record is dense and assumes context. A partner brief is short and assumes nothing. Do not maintain the second one. Regenerate it.
+Plain markdown. No scripts, no schemas, no hooks, no scheduler.
 
 ## Install
 
@@ -90,11 +13,32 @@ claude plugin marketplace add BytesNation/capstan
 claude plugin install capstan@bytesnation
 ```
 
-That installs at user scope, so the crew is available in every session. `--scope project` writes to the project's `.claude/settings.json` instead and travels with the repository, which is what you want if a team shares it. Later, when a new version lands, see [Upgrading](#upgrading) below for how it actually reaches your machine.
-
-Restart Claude Code. Agent definitions load at session start, so nothing applies until you do.
+Restart Claude Code once it finishes: agent definitions load at session start, and nothing applies until you do.
 
 Then start work with `/capstan:effort <what you want built>`.
+
+---
+
+The words above are load-bearing. [`.capstan/CONTEXT.md`](.capstan/CONTEXT.md) defines each one, and [`DESIGN.md`](DESIGN.md) holds the reasoning behind why the crew is shaped this way.
+
+## The disciplines
+
+Eight disciplines the roles pull in, plus `effort` itself: the front door, invoked only by you.
+
+| Skill | For |
+|---|---|
+| `interview` | Rounds of questions, each carrying a recommended answer, so decisions stay yours. |
+| `slicing` | Cuts a locked plan into vertical slices with real blocking edges. |
+| `test-first` | Red, green, refactor, tested only at seams agreed in advance. |
+| `decision-record` | A one-line log by default, a full record only when one is earned. |
+| `brief` | Checkpoint and partner briefs, generated per recipient rather than maintained. |
+| `two-axis-review` | Standards and spec, reviewed independently, never blended into one verdict. |
+| `unslop` | Cuts AI tells from prose a person reads. |
+| `writing-for-agents` | Keeps a document an agent consumes flat and the same shape every run. |
+
+## Install detail
+
+`claude plugin install capstan@bytesnation` installs at user scope, so the crew is available in every session. Add `--scope project` to write to the project's `.claude/settings.json` instead, so the install travels with the repository, which is what you want if a team shares it.
 
 ### The two installs name things differently
 
@@ -130,11 +74,9 @@ skills/writing-for-agents/
 
 The Architect reads the file for the phase it is in, so a run that reaches gate two with no `PHASE-2-PLAN.md` beside it has nothing to follow and will improvise a plan phase. Take the whole directory.
 
-### Upgrading
+## Upgrading
 
-**Marketplace install, crossing the rename.** For 2.0.0, BytesNation renamed the repository and the plugin along with it. GitHub redirects the old address, so `git ls-remote` against `BytesNation/Claude-tools` still resolves, and that has been checked directly. A marketplace you already added with `claude plugin marketplace add BytesNation/Claude-tools` keeps working, and you do not need to re-add it.
-
-The plugin name itself does not carry over, though. `claude-tools` and `capstan` are different identifiers to the CLI, so there is no update path between them, only uninstall then install:
+**Crossing the 2.0.0 rename.** `claude-tools` became `capstan`. GitHub redirects the old repository address, so a marketplace added as `BytesNation/Claude-tools` keeps working and does not need re-adding. The plugin name itself does not carry over, though: `claude-tools` and `capstan` are different identifiers to the CLI, so there is no update path between them, only uninstall then install.
 
 ```bash
 claude plugin uninstall claude-tools@bytesnation
@@ -142,30 +84,20 @@ claude plugin marketplace update bytesnation
 claude plugin install capstan@bytesnation
 ```
 
-If you installed with `--scope project`, add `-s project` to both the uninstall and the install command, since both default to user scope on their own.
+Add `-s project` to the uninstall and install commands if you installed at that scope. Restart Claude Code once it finishes, and every `/claude-tools:*` command becomes `/capstan:*`. Running `claude plugin marketplace update` before the uninstall step leaves the old entry reporting `Plugin claude-tools not found in marketplace bytesnation`, which is alarming, harmless, and clears once the uninstall finishes.
 
-Restart Claude Code once that finishes. Every `/claude-tools:*` command becomes `/capstan:*`, and the old namespace disappears. This three-step sequence has not been run against a live install.
-
-**Marketplace install, ordinary version bumps.** Once you are on `capstan`, a later release updates the way any plugin does. No rename involved:
+**Ordinary version bumps.** Once you are on `capstan`:
 
 ```bash
 claude plugin marketplace update bytesnation
 claude plugin update capstan@bytesnation
 ```
 
-The first refreshes the marketplace catalog. On its own that installs nothing, so stopping there leaves you on the old version while believing you upgraded. In a session, `/plugin marketplace update bytesnation` does the same refresh; nobody has watched the install step run through the `/plugin` manager, so this README stops short of a claim there and documents the CLI form of that step instead.
+The first command refreshes the marketplace catalog and installs nothing on its own; in a session, `/plugin marketplace update bytesnation` does the same refresh. The second does the install and needs the marketplace-qualified name, `capstan@bytesnation`; the bare name does not resolve. Add `-s project` if you installed at that scope, and restart Claude Code once it finishes.
 
-The second step does the install, and it needs the marketplace-qualified name, `capstan@bytesnation`. The bare name does not resolve. Add `-s project` to it if you installed at project scope, since `claude plugin update` defaults to user scope the same as install and uninstall.
+The `/plugin` auto-update toggle cannot cross the rename above: a `claude-tools` install left on auto-update sits on 1.1.0 with no error to say so. Leave it off, the same as any third-party marketplace.
 
-Restart Claude Code once that finishes. `claude plugin update --help` says as much itself: "Update a plugin to the latest version (restart required to apply)."
-
-`/plugin`, under the Marketplaces tab, has a toggle to auto-update instead of the commands above. It cannot cross this rename. `claude-tools` and `capstan` are different identifiers to the CLI, so the toggle has nothing to bridge them, and a `claude-tools` install left on auto-update sits on 1.1.0 with no error to say so. Leave it off regardless. Third-party marketplaces ship with auto-update off, and the reason to keep it that way is the same one behind every gate in this crew: a human decides before a new commit reaches your machine, not after.
-
-Coming from 1.0.0, now three versions back, the two things you will notice are the glossary at `.capstan/CONTEXT.md` and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
-
-Coming from 2.0.0, Capstan's own artifacts move under `.capstan/`. `CONTEXT.md`, `decisions.md`, and `decisions/` sat loose at the repository root; move them yourself to `.capstan/CONTEXT.md`, `.capstan/decisions.md`, and `.capstan/decisions/`, and change the `.gitignore` line from `.effort/` to `.capstan/effort/`. `.effort/` itself never moves; delete it. It is gitignored scratch that may already be absent.
-
-The Architect does not move, delete, or commit any of this for you. It only detects: if any of those paths are still at the root when you start an effort, it asks whether they are Capstan's. Say yes to any of them, and the run ends there; move the files as above and start a new one. Say no, and it logs the answer and continues.
+**From 2.0.0.** Capstan's own artifacts move under `.capstan/`. Move `CONTEXT.md`, `decisions.md`, and `decisions/` to `.capstan/`, change the `.gitignore` line from `.effort/` to `.capstan/effort/`, and delete `.effort/` itself, gitignored scratch that may already be absent. This file move has not been run against a live repository. The Architect does not move, delete, or commit any of it: it only detects a pre-2.1.0 layout and asks before it starts an effort. Say yes to any path, and the run ends there for you to make the move and start again. Say no, and it continues.
 
 **Manual install.** The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
 
@@ -185,16 +117,6 @@ cp -r capstan/skills/effort ~/.claude/skills/
 **Effort is not supported on Haiku.** Drop the `effort:` line from any agent you point at a Haiku model.
 
 **Fan-out does nothing for single-artifact work.** Parallel builders need slices that own different files. A document, a video script, a single config file: all one artifact, all inherently one Builder. Software usually fans out because slices own different things. Most non-code work does not, and a one-slice plan there is correct rather than a failure to parallelise.
-
-## Why the Architect creates worktrees by hand
-
-Subagents support `isolation: worktree` in frontmatter. This crew deliberately does not use it.
-
-That field resolves against the **session's** working directory rather than the repository the work lives in. A session rooted anywhere else fails outright with "not in a git repository", however correct the paths handed to the Builder are. Since one session often works across several repositories, that is the normal case rather than an edge case.
-
-So the Architect runs `git -C <repo> worktree add ...` itself, hands each Builder an absolute path, and removes the worktree after the merge. Nothing ever changes directory, and the flow works from a session rooted anywhere, including somewhere with no repository at all.
-
-The related trap: `.capstan/effort/` is gitignored, so an effort's spec, plan, and research do not exist inside any worktree. Builders get absolute paths into the main working copy for those. A Builder that cannot find its brief will invent one.
 
 ## Configure
 

@@ -60,9 +60,9 @@ If the work has no repository, say so and ask whether to create one. An effort n
 
 **Check for a pre-2.1.0 layout.**
 
-- *What triggers it.* Any of `CONTEXT.md`, `decisions.md`, `decisions/`, or `.effort/` at the working copy root. A candidate signal that this repository predates 2.1.0, when Capstan kept its artifacts there, not proof.
-- *Claim safety, checked before anything else below.* If `.effort/CLAIM.md` exists, that claim cannot be taken over: report what it says and stop. The operator finishes or abandons that effort on 2.0.0, or deletes `.effort/` and starts fresh.
-- *What it does.* Check `.capstan/decisions.md` for an existing `assumed` line recording these root paths as not Capstan's. If one is there, skip the question below and continue. Otherwise ask the operator whether the paths are Capstan's.
+- **What triggers it.** Any of `CONTEXT.md`, `decisions.md`, `decisions/`, or `.effort/` at the working copy root. A candidate signal that this repository predates 2.1.0, when Capstan kept its artifacts there, not proof.
+- **Claim safety, checked before anything else below.** If `.effort/CLAIM.md` exists, that claim cannot be taken over: report what it says and stop. The operator finishes or abandons that effort on 2.0.0, or deletes `.effort/` and starts fresh.
+- **What it does.** Check `.capstan/decisions.md` for an existing `assumed` line recording these root paths as not Capstan's. If one is there, skip the question below and continue. Otherwise ask the operator whether the paths are Capstan's.
 
 | Answer | Result |
 |---|---|

@@ -14,6 +14,7 @@ The words this repository uses, defined once. This describes Capstan itself; it 
 | Reviewer | Reviews one slice's diff without the Builder's reasoning. Reports, never fixes. |
 | Courier | Packages a delivered effort, writes the knowledge-base note, deletes the scratch. Never sends. |
 | Discipline | A skill the roles pull in, as opposed to a role itself. |
+| Front door | The `effort` skill, invoked by the operator to start a run. Neither a Discipline nor an Effort. |
 | Namespace | The `capstan:` prefix a plugin install puts on every skill and agent. Absent under a manual install. |
 | `.capstan/` | The folder holding the artifacts Capstan writes for itself: `CONTEXT.md`, `decisions.md`, `decisions/`, and the effort scratch at `effort/`. Distinct from the namespace above, which is a prefix rather than a folder. |
 | Slice | A change that can be demonstrated on its own once it is done. |

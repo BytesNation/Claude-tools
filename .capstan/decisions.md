@@ -4,7 +4,25 @@
 |---|------|----------|--------|
 | 21 | 2026-08-21 | Scope widened two lines: README line 98's `/effort` becomes `/capstan:effort`, and the line 3 tagline adopts the new description | superseded by 22 |
 | 20 | 2026-08-21 | Both descriptions carry identical text. The longer gallery variant is dropped: "stops for your approval at three points along the way" contradicts `CONTEXT.md`, which defines a Gate as never a pause | accepted |
-| 64 | 2026-08-21 | The three italic bullet leads in the detection step stay. The repository uses bold leads 39 times and this is the only deviation. Revisit in the README effort rather than spending a round on three characters | assumed |
+| 82 | 2026-08-21 | The Architect's does-not-move-delete-or-commit guarantee is restored explicitly. It thinned one word per round across three rounds without anyone deciding to drop it, and the commit half had no carrier left | accepted |
+| 81 | 2026-08-21 | The first screen says the disciplines run through to delivery, not through to the review. Review stopped one phase short of the headline two lines above it, and of the Courier named in the same sentence | accepted |
+| 80 | 2026-08-21 | `DESIGN.md` is verbatim with two recorded exceptions: the disciplines lead line, which carries both the count fix per 75 and the preload correction, and one blank line at the seam where two sections became neighbours for the first time | accepted |
+| 79 | 2026-08-21 | The no-scripts line sits below the counts rather than above them. It lands harder once the reader knows what there is to have no scripts for | accepted |
+| 78 | 2026-08-21 | The spec and plan are corrected rather than the deliverable. Six spec lines and two criteria went stale as decisions 73 to 77 landed mid-build, and criterion 4 was grading correct work as wrong | accepted |
+| 77 | 2026-08-21 | The unverified-sequence hedge returns, scoped to the 2.1.0 file move, which has not been run. The 2.0.0 uninstall and reinstall was verified live at that effort's delivery, so the old blanket hedge was stale | accepted |
+| 76 | 2026-08-21 | "Plain markdown. No scripts, no schemas, no hooks, no scheduler" returns to the first screen. It is the only sentence giving a stranger a reason to choose this, and decision 67's "four things" governed structure rather than withholding the reason | accepted |
+| 75 | 2026-08-21 | `effort` is not a discipline. Both tables read eight disciplines plus the front door, and `CONTEXT.md` gains a row for the operator-invoked front door that is neither a Discipline nor an Effort | accepted |
+| 74 | 2026-08-21 | The headline names the platform. Decision 65's own wording carried "Claude" and my sentence dropped it, so the platform first appeared inside a shell command | accepted |
+| 73 | 2026-08-21 | "Five roles", not "five agents". `agents/` holds four files and the Architect is the operator's session. A spec defect of mine, implemented faithfully and tested for by criterion 4 | accepted |
+| 72 | 2026-08-21 | No version bump. Documentation only, and the README people read is the one on GitHub rather than the copy in their plugin cache | accepted |
+| 71 | 2026-08-21 | No competitor is named. Position by what Capstan does; naming one invites a comparison we do not control and ages the moment either project moves | accepted |
+| 70 | 2026-08-21 | `Known limits` and `Configure` stay in the README, below the fold. Limits are a buying signal rather than a caveat, and configuration belongs beside the install | accepted |
+| 69 | 2026-08-21 | Decisions 8, 13, 19, 26 and 64 were put to the operator twice and went unanswered twice. Defaulted rather than asked a third time, per the interview's stall route | accepted |
+| 68 | 2026-08-21 | The `Upgrading` section stays, compressed and below the fold. Two efforts made it correct and deleting it strands everyone on 1.x and 2.0 | accepted |
+| 67 | 2026-08-21 | Install lands in the first screen. What it is, what you get, how to install, then depth | accepted |
+| 66 | 2026-08-21 | The design material moves to `DESIGN.md`, linked once. Too good to delete, too long for a page whose job is getting someone to install | accepted |
+| 65 | 2026-08-21 | The README is written for someone choosing a full Claude skills and agent environment for taking work from concept to delivery. Deciding, not operating | accepted |
+| 64 | 2026-08-21 | The three italic bullet leads become bold, matching the repository's 39 others. The revisit condition on this line fired: this is the README effort | accepted |
 | 63 | 2026-08-21 | `.effort/` is deleted from this working copy at delivery. Nothing else deletes it, and left in place it fires the trigger built in this effort and stops the next one | accepted |
 | 62 | 2026-08-21 | `.effort/` is never moved. The operator deletes it. Moving it would put a stale `CLAIM.md` where the next run reads a live one | accepted |
 | 61 | 2026-08-21 | The step reads the recorded `assumed` line before asking. A line written to stop a question recurring has to be read by the thing that asks it | accepted |
@@ -42,7 +60,7 @@
 | 29 | 2026-08-21 | Capstan's own repo follows the same convention. Its root `CONTEXT.md`, `decisions.md` and `decisions/` move too | accepted |
 | 28 | 2026-08-21 | `.capstan/` is committed. Only `.capstan/effort/` is gitignored. A blanket ignore would stop decisions entering git and contradict the thesis | accepted |
 | 27 | 2026-08-21 | Every artifact Capstan writes lives under `.capstan/` in the working copy. The repo root stays the user's, and `CONTEXT.md` stops colliding with the same filename in other plugins | accepted |
-| 26 | 2026-08-21 | Whether `Upgrading` should say that refreshing the marketplace before uninstalling orphans the old entry harmlessly. Observed live; the alarming error message is undocumented | open |
+| 26 | 2026-08-21 | `Upgrading` documents the orphan-on-refresh in one clause. Defaulted after two unanswered rounds; revisit if the section should stay shorter | assumed |
 | 25 | 2026-08-21 | `plugin.json` holds the canonical description. `marketplace.json` and the README copy it, and the next editor changes all three | accepted |
 | 24 | 2026-08-21 | The `Namespace` row in `CONTEXT.md` is forward-looking rather than a retrofit against decision 4, because the prefix itself resolved in this effort | accepted |
 | 23 | 2026-08-21 | Scope widened again: `Known limits` says `/capstan:effort`, and the manual-install section gets its own start line | accepted |
