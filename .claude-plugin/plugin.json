@@ -1,7 +1,7 @@
 {
   "name": "claude-tools",
   "displayName": "Claude Tools",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A five-role agent crew and the disciplines it runs on, for taking work from concept to delivery with a human at the gates rather than in the loop.",
   "author": {
     "name": "BytesNation",

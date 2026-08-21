@@ -90,7 +90,7 @@ claude plugin marketplace add BytesNation/Claude-tools
 claude plugin install claude-tools@bytesnation
 ```
 
-That installs at user scope, so the crew is available in every session. `--scope project` writes to the project's `.claude/settings.json` instead and travels with the repository, which is what you want if a team shares it. Later, `claude plugin update claude-tools`.
+That installs at user scope, so the crew is available in every session. `--scope project` writes to the project's `.claude/settings.json` instead and travels with the repository, which is what you want if a team shares it. Later, when a new version lands, see [Upgrading](#upgrading) below for how it actually reaches your machine.
 
 Restart Claude Code. Agent definitions load at session start, so nothing applies until you do.
 
@@ -130,7 +130,20 @@ The Architect reads the file for the phase it is in, so a run that reaches gate 
 
 ### Upgrading
 
-The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
+Coming from 1.0.0, the two things you will notice are `CONTEXT.md`, the glossary, and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
+
+**Marketplace install.** Bumping the version in `plugin.json` does not, by itself, put a new release on your machine. Third-party marketplaces ship with auto-update off, so you pull the update yourself, in a session:
+
+```
+/plugin marketplace update bytesnation
+/reload-plugins
+```
+
+or from a shell, `claude plugin marketplace update bytesnation`.
+
+`/plugin`, under the Marketplaces tab, has a toggle to auto-update instead. Leave it off. The whole point of this crew is a human at the gates rather than in the loop, and auto-update means a new commit reaches your machine before anyone has read it.
+
+**Manual install.** The copy above overwrites what it finds and leaves everything else alone, so a version that drops or renames a file leaves the old one sitting there. Replace a skill outright rather than copying over it:
 
 ```bash
 rm -rf ~/.claude/skills/effort
