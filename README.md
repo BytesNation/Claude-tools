@@ -132,14 +132,16 @@ The Architect reads the file for the phase it is in, so a run that reaches gate 
 
 Coming from 1.0.0, the two things you will notice are `CONTEXT.md`, the glossary, and the `open`/`assumed` log statuses, both described above. Neither needs a migration step. Both appear on their own the first time an effort settles a term or parks a question, and every read of them is guarded, so a repo that predates 1.1.0 behaves exactly as it did before.
 
-**Marketplace install.** Bumping the version in `plugin.json` does not, by itself, put a new release on your machine. Third-party marketplaces ship with auto-update off, so you pull the update yourself, in a session:
+**Marketplace install.** Bumping the version in `plugin.json` does not, by itself, put a new release on your machine. Third-party marketplaces ship with auto-update off, so you pull the update yourself. From a shell, two steps, in order:
 
-```
-/plugin marketplace update bytesnation
-/reload-plugins
+```bash
+claude plugin marketplace update bytesnation
+claude plugin update claude-tools@bytesnation
 ```
 
-or from a shell, `claude plugin marketplace update bytesnation`.
+The first refreshes the marketplace catalog. On its own that installs nothing, so stopping there leaves you on the old version while believing you upgraded. The second step does the install, and it needs the marketplace-qualified name, `claude-tools@bytesnation`. The bare name does not resolve. `claude plugin update claude-tools` fails with `Plugin "claude-tools" not found`. Run it right and the CLI answers `Plugin "claude-tools" updated from 1.0.0 to 1.1.0 for scope user. Restart to apply changes.` Restart the session once you see that.
+
+The shell sequence above is the one that was actually run. In a session, `/plugin marketplace update bytesnation` is the in-session form of the refresh step; nobody has watched the install step run through the `/plugin` manager, so this README stops short of a claim there.
 
 `/plugin`, under the Marketplaces tab, has a toggle to auto-update instead. Leave it off. The whole point of this crew is a human at the gates rather than in the loop, and auto-update means a new commit reaches your machine before anyone has read it.
 
